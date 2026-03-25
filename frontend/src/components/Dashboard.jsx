@@ -90,33 +90,99 @@ export default function Dashboard({ region, setRegion, threatData, isOptimizing,
 
       {optimizedData && (
         <>
+          {/* ── Quick stats ──────────────────────────────────────── */}
           <div className="metrics-grid">
             <div className="metric-card">
-              <div className="metric-title" style={{color: '#a855f7'}}>ML Pipeline Time</div>
+              <div className="metric-title" style={{color: '#a855f7'}}>ML Pipeline</div>
               <div className="metric-value">{optimizedData.ml_execution_time_ms} ms</div>
             </div>
             <div className="metric-card">
-              <div className="metric-title" style={{color: '#3b82f6'}}>QAOA Circuit Time</div>
+              <div className="metric-title" style={{color: '#3b82f6'}}>QAOA Circuit</div>
               <div className="metric-value">{optimizedData.quantum_execution_time_ms} ms</div>
             </div>
             <div className="metric-card">
-              <div className="metric-title">Secured Targets</div>
+              <div className="metric-title">People Secured</div>
               <div className="metric-value" style={{ color: '#06b6d4' }}>
                 <Users size={16} style={{display: 'inline', marginRight: '4px'}}/>
                 {optimizedData.metrics.people_secured.toLocaleString()}
               </div>
             </div>
             <div className="metric-card" style={{ gridColumn: 'span 2', background: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.3)' }}>
-              <div className="metric-title" style={{ color: '#10b981' }}>Est. Clearance Time Reduction</div>
+              <div className="metric-title" style={{ color: '#10b981' }}>Overall QAOA Advantage (weighted)</div>
               <div className="metric-value metric-highlight">
                 <Clock size={20} style={{display: 'inline', marginRight: '8px', verticalAlign: 'middle'}}/>
                 {optimizedData.metrics.time_reduction_percentage}%
               </div>
-              <div style={{fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px'}}>
-                Quantum {optimizedData.metrics.qaoa_optimized_clearance_hrs} hrs vs Classical {optimizedData.metrics.unoptimized_clearance_hrs} hrs
+              <div style={{fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px'}}>
+                20% time + 35% load balance + 30% risk exposure + 15% high-risk routes
               </div>
             </div>
           </div>
+
+          {/* ── Genuine QAOA vs Classical comparison ─────────────── */}
+          {optimizedData.comparison && (
+            <div style={{
+              background: 'rgba(0,0,0,0.25)',
+              border: '1px solid rgba(99,102,241,0.3)',
+              borderRadius: '10px',
+              padding: '14px',
+              marginBottom: '18px',
+            }}>
+              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#818cf8', marginBottom: '10px', letterSpacing: '0.05em' }}>
+                ⚛️ QAOA vs Classical Greedy — Measured Metrics
+              </div>
+              <table style={{ width: '100%', fontSize: '0.78rem', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ color: '#64748b', textAlign: 'left' }}>
+                    <th style={{ paddingBottom: '6px' }}>Metric</th>
+                    <th style={{ paddingBottom: '6px', color: '#ef4444' }}>Classical</th>
+                    <th style={{ paddingBottom: '6px', color: '#10b981' }}>QAOA Hybrid</th>
+                    <th style={{ paddingBottom: '6px', color: '#a855f7' }}>Improvement</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    {
+                      label: 'Avg Clearance Time',
+                      cVal: `${optimizedData.comparison.classical.avg_clearance_hrs} hrs`,
+                      qVal: `${optimizedData.comparison.quantum.avg_clearance_hrs} hrs`,
+                      val: optimizedData.comparison.improvements.clearance_time_reduction_pct,
+                    },
+                    {
+                      label: 'Load Balance (σ%)',
+                      cVal: `${optimizedData.comparison.classical.load_balance_std_pct}%`,
+                      qVal: `${optimizedData.comparison.quantum.load_balance_std_pct}%`,
+                      val: optimizedData.comparison.improvements.load_balance_improvement_pct,
+                    },
+                    {
+                      label: 'Risk Exposure',
+                      cVal: optimizedData.comparison.classical.total_risk_exposure.toLocaleString(),
+                      qVal: optimizedData.comparison.quantum.total_risk_exposure.toLocaleString(),
+                      val: optimizedData.comparison.improvements.risk_exposure_reduction_pct,
+                    },
+                    {
+                      label: 'High-Risk Routes',
+                      cVal: `${optimizedData.comparison.classical.high_risk_routes_pct}%`,
+                      qVal: `${optimizedData.comparison.quantum.high_risk_routes_pct}%`,
+                      val: optimizedData.comparison.improvements.high_risk_routes_reduced_pct,
+                    },
+                  ].map((row, i) => (
+                    <tr key={i} style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                      <td style={{ padding: '5px 0', color: '#94a3b8' }}>{row.label}</td>
+                      <td style={{ padding: '5px 4px', color: '#fca5a5' }}>{row.cVal}</td>
+                      <td style={{ padding: '5px 4px', color: '#86efac' }}>{row.qVal}</td>
+                      <td style={{ padding: '5px 4px', color: row.val > 0 ? '#10b981' : '#f59e0b', fontWeight: 700 }}>
+                        {row.val > 0 ? `↓ ${row.val}%` : row.val < 0 ? `↑ ${Math.abs(row.val)}%` : '—'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div style={{ fontSize: '0.7rem', color: '#475569', marginTop: '8px' }}>
+                Load Balance σ%: lower = more evenly distributed shelters. Risk Exposure: Σ(risk × population).
+              </div>
+            </div>
+          )}
 
           <div className="shelter-capacity-section">
             <h3><Database size={16} style={{display:'inline', marginRight:'6px', verticalAlign:'sub'}}/>Shelter Capacity Status</h3>
