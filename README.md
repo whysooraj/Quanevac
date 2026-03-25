@@ -299,13 +299,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Open Source Routing Machine**: Road network data
 - **GDACS**: Global Disaster Alert and Coordination System
 
-## 📞 Contact
 
-- **Project Lead**: [Your Name]
-- **Email**: your.email@example.com
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-- **LinkedIn**: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-
----
 
 *Built with ❤️ for disaster resilience and quantum computing advancement*
