@@ -14,14 +14,25 @@ L.Icon.Default.mergeOptions({
 
 // ── Single route that fetches its own road geometry ───────────────────────
 function RoutePolyline({ assignment, village, shelter, stormTrack }) {
-  // Only render routes that have real road geometry from the backend
   const positions = assignment.road_geometry;
   if (!positions || positions.length < 2) return null;
 
-  const throughStorm = assignment.risk_level >= 0.6;
-  const color = assignment.status === 'Critical' ? '#ef4444'
-              : assignment.status === 'At Risk'  ? '#f59e0b'
-              : '#10b981';
+  // ── Color: based on ML-evaluated road risk_level (0→1), NOT composite score
+  const risk  = assignment.risk_level ?? 0;
+  const color = risk >= 0.55 ? '#ef4444'    // High risk  → red
+              : risk >= 0.30 ? '#f59e0b'    // Medium risk → amber
+              : '#10b981';                  // Low risk   → green
+
+  // ── Dashed: true if the route midpoint is geometrically inside the storm circle
+  let throughStorm = false;
+  if (stormTrack && positions.length > 0) {
+    const mid = positions[Math.floor(positions.length / 2)];
+    const dLat = mid[0] - stormTrack.latitude;
+    const dLng = mid[1] - stormTrack.longitude;
+    const distKm = Math.sqrt(dLat * dLat + dLng * dLng) * 111.0;
+    throughStorm = distKm < (stormTrack.radius_km ?? 50);
+  }
+
   const weight = Math.max(2, Math.min(7, assignment.population / 350));
 
   return (
@@ -30,21 +41,21 @@ function RoutePolyline({ assignment, village, shelter, stormTrack }) {
       pathOptions={{
         color,
         weight,
-        opacity: throughStorm ? 0.5 : 0.85,
-        dashArray: throughStorm ? '6,6' : null,
+        opacity: throughStorm ? 0.55 : 0.88,
+        dashArray: throughStorm ? '7,5' : null,
       }}
-      className={assignment.status === 'Critical' ? 'flowing-route-critical' : 'flowing-route'}
+      className={risk >= 0.55 ? 'flowing-route-critical' : 'flowing-route'}
     >
       <Popup>
         <div style={{ color: '#333', fontSize: '0.85em' }}>
           <strong>{assignment.village_name}</strong> → {assignment.assigned_shelter_name}<br/>
           👥 Pop: {assignment.population.toLocaleString()}<br/>
           ⏱ {assignment.estimated_time_hrs}h &nbsp;
-          🌊 Risk: {Math.round(assignment.risk_level * 100)}%<br/>
-          🎯 Priority: <strong>{Math.round((assignment.composite_score ?? assignment.risk_level) * 100)}%</strong>
+          🌊 Road Risk: <strong>{Math.round(risk * 100)}%</strong><br/>
+          🎯 Priority: <strong>{Math.round((assignment.composite_score ?? risk) * 100)}%</strong>
           {' — '}<span style={{ color }}>{assignment.status}</span><br/>
           {assignment.solver && <span style={{ color: '#818cf8', fontSize: '0.75em' }}>⚛ {assignment.solver}</span>}<br/>
-          {throughStorm && <span style={{ color: '#ef4444' }}>⚠️ High-risk zone route</span>}
+          {throughStorm && <span style={{ color: '#ef4444' }}>⚠️ Route passes through storm zone</span>}
         </div>
       </Popup>
     </Polyline>
@@ -110,21 +121,48 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
         );
       })}
 
-      {/* Storm impact zone — geo-circles, scale correctly on zoom */}
-      <Circle center={[stormTrack.latitude, stormTrack.longitude]}
-        radius={40000}
-        pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.03, dashArray: '10,10', weight: 1 }} />
-      <Circle center={[stormTrack.latitude, stormTrack.longitude]}
-        radius={25000}
-        pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 0.08, dashArray: '5,5', weight: 2 }}>
-        <Popup>
-          <strong>Cyclone Impact Zone</strong><br />
-          Routes inside suffer high ML flood risk penalties.<br/>
-          <em>Click anywhere to reposition the storm → auto re-routes!</em>
-        </Popup>
-      </Circle>
-      <CircleMarker center={[stormTrack.latitude, stormTrack.longitude]}
-        radius={6} pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 1, weight: 2 }} />
+      {/* Storm impact zone — visual opacity and thickness scales with wind speed and rainfall */}
+      {(() => {
+        const wind = stormTrack.wind_speed_kmh || 150;
+        const rain = stormTrack.rainfall_mm || 200;
+        const rad = stormTrack.radius_km || 50;
+        
+        // Combined intensity 0.0 -> 1.0
+        const intensity = Math.min(1.0, (wind / 220) * 0.6 + (rain / 400) * 0.4);
+
+        return (
+          <>
+            {/* Outer Influence Zone */}
+            <Circle center={[stormTrack.latitude, stormTrack.longitude]}
+              radius={rad * 1000}
+              pathOptions={{ 
+                color: '#ef4444', fillColor: '#ef4444', 
+                fillOpacity: 0.01 + intensity * 0.15, 
+                dashArray: '10,10', 
+                weight: 1 + intensity * 2
+              }} 
+            />
+            {/* Inner Core Danger Zone */}
+            <Circle center={[stormTrack.latitude, stormTrack.longitude]}
+              radius={rad * 1000 * 0.5}
+              pathOptions={{ 
+                color: '#ef4444', fillColor: '#ef4444', 
+                fillOpacity: 0.05 + intensity * 0.35, 
+                dashArray: '5,5', 
+                weight: 2 + intensity * 3
+              }}>
+              <Popup>
+                <strong>Cyclone Impact Zone</strong><br />
+                Routes inside suffer extreme ML flood & wind penalties.<br/>
+                <em>Click anywhere to reposition the storm → auto re-routes!</em>
+              </Popup>
+            </Circle>
+            {/* Storm Eye */}
+            <CircleMarker center={[stormTrack.latitude, stormTrack.longitude]}
+              radius={3 + intensity * 5} pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 1, weight: 2 }} />
+          </>
+        );
+      })()}
 
       {/* Optimised routes — each fetches its own road geometry lazily */}
       {optimizedData?.assignments.map((assignment, idx) => {

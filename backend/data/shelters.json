@@ -1,37 +1,218 @@
 [
-  {"shelter_id":"S1","name":"Puri Shelter 1","district":"Puri","latitude":19.95,"longitude":85.90,"capacity":4000},
-  {"shelter_id":"S2","name":"Puri Shelter 2","district":"Puri","latitude":19.88,"longitude":86.10,"capacity":3000},
-  {"shelter_id":"S3","name":"Puri Shelter 3","district":"Puri","latitude":20.05,"longitude":85.85,"capacity":3500},
-  {"shelter_id":"S4","name":"Puri Shelter 4","district":"Puri","latitude":19.90,"longitude":86.20,"capacity":4500},
-  {"shelter_id":"S5","name":"Puri Shelter 5","district":"Puri","latitude":20.10,"longitude":85.75,"capacity":3000},
-
-  {"shelter_id":"S6","name":"Jagatsinghpur Shelter 1","district":"Jagatsinghpur","latitude":20.30,"longitude":86.20,"capacity":4000},
-  {"shelter_id":"S7","name":"Jagatsinghpur Shelter 2","district":"Jagatsinghpur","latitude":20.40,"longitude":86.10,"capacity":3500},
-  {"shelter_id":"S8","name":"Jagatsinghpur Shelter 3","district":"Jagatsinghpur","latitude":20.50,"longitude":86.25,"capacity":4500},
-  {"shelter_id":"S9","name":"Jagatsinghpur Shelter 4","district":"Jagatsinghpur","latitude":20.35,"longitude":86.30,"capacity":3000},
-  {"shelter_id":"S10","name":"Jagatsinghpur Shelter 5","district":"Jagatsinghpur","latitude":20.45,"longitude":86.05,"capacity":3800},
-
-  {"shelter_id":"S11","name":"Kendrapara Shelter 1","district":"Kendrapara","latitude":20.55,"longitude":86.50,"capacity":6000},
-  {"shelter_id":"S12","name":"Kendrapara Shelter 2","district":"Kendrapara","latitude":20.60,"longitude":86.40,"capacity":4500},
-  {"shelter_id":"S13","name":"Kendrapara Shelter 3","district":"Kendrapara","latitude":20.70,"longitude":86.55,"capacity":3500},
-  {"shelter_id":"S14","name":"Kendrapara Shelter 4","district":"Kendrapara","latitude":20.65,"longitude":86.60,"capacity":4000},
-  {"shelter_id":"S15","name":"Kendrapara Shelter 5","district":"Kendrapara","latitude":20.50,"longitude":86.60,"capacity":5000},
-
-  {"shelter_id":"S16","name":"Ganjam Shelter 1","district":"Ganjam","latitude":19.35,"longitude":84.90,"capacity":4500},
-  {"shelter_id":"S17","name":"Ganjam Shelter 2","district":"Ganjam","latitude":19.40,"longitude":84.80,"capacity":3500},
-  {"shelter_id":"S18","name":"Ganjam Shelter 3","district":"Ganjam","latitude":19.50,"longitude":84.85,"capacity":3000},
-  {"shelter_id":"S19","name":"Ganjam Shelter 4","district":"Ganjam","latitude":19.60,"longitude":84.95,"capacity":4000},
-  {"shelter_id":"S20","name":"Ganjam Shelter 5","district":"Ganjam","latitude":19.45,"longitude":84.75,"capacity":3800},
-
-  {"shelter_id":"S21","name":"Coastal Shelter 1","district":"Kendrapara","latitude":20.45,"longitude":86.65,"capacity":3500},
-  {"shelter_id":"S22","name":"Coastal Shelter 2","district":"Puri","latitude":19.85,"longitude":86.25,"capacity":3200},
-  {"shelter_id":"S23","name":"Coastal Shelter 3","district":"Jagatsinghpur","latitude":20.38,"longitude":86.35,"capacity":3000},
-  {"shelter_id":"S24","name":"Coastal Shelter 4","district":"Kendrapara","latitude":20.60,"longitude":86.65,"capacity":4200},
-  {"shelter_id":"S25","name":"Coastal Shelter 5","district":"Puri","latitude":19.95,"longitude":86.30,"capacity":3600},
-
-  {"shelter_id":"S26","name":"Inland Shelter 1","district":"Puri","latitude":20.15,"longitude":85.70,"capacity":5000},
-  {"shelter_id":"S27","name":"Inland Shelter 2","district":"Jagatsinghpur","latitude":20.55,"longitude":86.00,"capacity":4500},
-  {"shelter_id":"S28","name":"Inland Shelter 3","district":"Kendrapara","latitude":20.75,"longitude":86.45,"capacity":4000},
-  {"shelter_id":"S29","name":"Inland Shelter 4","district":"Ganjam","latitude":19.65,"longitude":84.70,"capacity":3500},
-  {"shelter_id":"S30","name":"Inland Shelter 5","district":"Puri","latitude":20.10,"longitude":85.80,"capacity":4200}
+  {
+    "shelter_id": "S1",
+    "name": "Puri Shelter 1",
+    "district": "Puri",
+    "latitude": 19.95,
+    "longitude": 85.9,
+    "capacity": 4000
+  },
+  {
+    "shelter_id": "S2",
+    "name": "Puri Shelter 2",
+    "district": "Puri",
+    "latitude": 19.88,
+    "longitude": 86.1,
+    "capacity": 3000
+  },
+  {
+    "shelter_id": "S3",
+    "name": "Puri Shelter 3",
+    "district": "Puri",
+    "latitude": 20.05,
+    "longitude": 85.85,
+    "capacity": 3500
+  },
+  {
+    "shelter_id": "S5",
+    "name": "Puri Shelter 5",
+    "district": "Puri",
+    "latitude": 20.1,
+    "longitude": 85.75,
+    "capacity": 3000
+  },
+  {
+    "shelter_id": "S6",
+    "name": "Jagatsinghpur Shelter 1",
+    "district": "Jagatsinghpur",
+    "latitude": 20.3,
+    "longitude": 86.2,
+    "capacity": 4000
+  },
+  {
+    "shelter_id": "S7",
+    "name": "Jagatsinghpur Shelter 2",
+    "district": "Jagatsinghpur",
+    "latitude": 20.4,
+    "longitude": 86.1,
+    "capacity": 3500
+  },
+  {
+    "shelter_id": "S8",
+    "name": "Jagatsinghpur Shelter 3",
+    "district": "Jagatsinghpur",
+    "latitude": 20.5,
+    "longitude": 86.25,
+    "capacity": 4500
+  },
+  {
+    "shelter_id": "S9",
+    "name": "Jagatsinghpur Shelter 4",
+    "district": "Jagatsinghpur",
+    "latitude": 20.35,
+    "longitude": 86.3,
+    "capacity": 3000
+  },
+  {
+    "shelter_id": "S10",
+    "name": "Jagatsinghpur Shelter 5",
+    "district": "Jagatsinghpur",
+    "latitude": 20.45,
+    "longitude": 86.05,
+    "capacity": 3800
+  },
+  {
+    "shelter_id": "S11",
+    "name": "Kendrapara Shelter 1",
+    "district": "Kendrapara",
+    "latitude": 20.55,
+    "longitude": 86.5,
+    "capacity": 6000
+  },
+  {
+    "shelter_id": "S12",
+    "name": "Kendrapara Shelter 2",
+    "district": "Kendrapara",
+    "latitude": 20.6,
+    "longitude": 86.4,
+    "capacity": 4500
+  },
+  {
+    "shelter_id": "S13",
+    "name": "Kendrapara Shelter 3",
+    "district": "Kendrapara",
+    "latitude": 20.7,
+    "longitude": 86.55,
+    "capacity": 3500
+  },
+  {
+    "shelter_id": "S14",
+    "name": "Kendrapara Shelter 4",
+    "district": "Kendrapara",
+    "latitude": 20.65,
+    "longitude": 86.6,
+    "capacity": 4000
+  },
+  {
+    "shelter_id": "S15",
+    "name": "Kendrapara Shelter 5",
+    "district": "Kendrapara",
+    "latitude": 20.5,
+    "longitude": 86.6,
+    "capacity": 5000
+  },
+  {
+    "shelter_id": "S16",
+    "name": "Ganjam Shelter 1",
+    "district": "Ganjam",
+    "latitude": 19.35,
+    "longitude": 84.9,
+    "capacity": 4500
+  },
+  {
+    "shelter_id": "S17",
+    "name": "Ganjam Shelter 2",
+    "district": "Ganjam",
+    "latitude": 19.4,
+    "longitude": 84.8,
+    "capacity": 3500
+  },
+  {
+    "shelter_id": "S18",
+    "name": "Ganjam Shelter 3",
+    "district": "Ganjam",
+    "latitude": 19.5,
+    "longitude": 84.85,
+    "capacity": 3000
+  },
+  {
+    "shelter_id": "S19",
+    "name": "Ganjam Shelter 4",
+    "district": "Ganjam",
+    "latitude": 19.6,
+    "longitude": 84.95,
+    "capacity": 4000
+  },
+  {
+    "shelter_id": "S20",
+    "name": "Ganjam Shelter 5",
+    "district": "Ganjam",
+    "latitude": 19.45,
+    "longitude": 84.75,
+    "capacity": 3800
+  },
+  {
+    "shelter_id": "S21",
+    "name": "Coastal Shelter 1",
+    "district": "Kendrapara",
+    "latitude": 20.45,
+    "longitude": 86.65,
+    "capacity": 3500
+  },
+  {
+    "shelter_id": "S23",
+    "name": "Coastal Shelter 3",
+    "district": "Jagatsinghpur",
+    "latitude": 20.38,
+    "longitude": 86.35,
+    "capacity": 3000
+  },
+  {
+    "shelter_id": "S24",
+    "name": "Coastal Shelter 4",
+    "district": "Kendrapara",
+    "latitude": 20.6,
+    "longitude": 86.65,
+    "capacity": 4200
+  },
+  {
+    "shelter_id": "S26",
+    "name": "Inland Shelter 1",
+    "district": "Puri",
+    "latitude": 20.15,
+    "longitude": 85.7,
+    "capacity": 5000
+  },
+  {
+    "shelter_id": "S27",
+    "name": "Inland Shelter 2",
+    "district": "Jagatsinghpur",
+    "latitude": 20.55,
+    "longitude": 86.0,
+    "capacity": 4500
+  },
+  {
+    "shelter_id": "S28",
+    "name": "Inland Shelter 3",
+    "district": "Kendrapara",
+    "latitude": 20.75,
+    "longitude": 86.45,
+    "capacity": 4000
+  },
+  {
+    "shelter_id": "S29",
+    "name": "Inland Shelter 4",
+    "district": "Ganjam",
+    "latitude": 19.65,
+    "longitude": 84.7,
+    "capacity": 3500
+  },
+  {
+    "shelter_id": "S30",
+    "name": "Inland Shelter 5",
+    "district": "Puri",
+    "latitude": 20.1,
+    "longitude": 85.8,
+    "capacity": 4200
+  }
 ]

@@ -1,152 +1,1146 @@
 [
-  {"village_id": "V1", "name": "Village_1", "district": "Jagatsinghpur", "latitude": 20.32018, "longitude": 86.19164, "population": 955},
-  {"village_id": "V2", "name": "Village_2", "district": "Jagatsinghpur", "latitude": 20.27552, "longitude": 86.249, "population": 1026},
-  {"village_id": "V3", "name": "Village_3", "district": "Puri", "latitude": 20.18633, "longitude": 86.24114, "population": 1894},
-  {"village_id": "V4", "name": "Village_4", "district": "Ganjam", "latitude": 19.33841, "longitude": 84.71258, "population": 1520},
-  {"village_id": "V5", "name": "Village_5", "district": "Kendrapara", "latitude": 20.69876, "longitude": 86.50589, "population": 1383},
-  {"village_id": "V6", "name": "Village_6", "district": "Kendrapara", "latitude": 20.49961, "longitude": 86.64148, "population": 911},
-  {"village_id": "V7", "name": "Village_7", "district": "Kendrapara", "latitude": 20.79577, "longitude": 86.42464, "population": 1189},
-  {"village_id": "V8", "name": "Village_8", "district": "Puri", "latitude": 20.11297, "longitude": 86.28349, "population": 992},
-  {"village_id": "V9", "name": "Village_9", "district": "Jagatsinghpur", "latitude": 20.49941, "longitude": 86.38322, "population": 943},
-  {"village_id": "V10", "name": "Village_10", "district": "Puri", "latitude": 19.99664, "longitude": 86.05923, "population": 1032},
-  {"village_id": "V11", "name": "Village_11", "district": "Jagatsinghpur", "latitude": 20.30102, "longitude": 86.03905, "population": 1388},
-  {"village_id": "V12", "name": "Village_12", "district": "Ganjam", "latitude": 19.62274, "longitude": 84.78651, "population": 1774},
-  {"village_id": "V13", "name": "Village_13", "district": "Jagatsinghpur", "latitude": 20.48086, "longitude": 86.07074, "population": 1620},
-  {"village_id": "V14", "name": "Village_14", "district": "Puri", "latitude": 19.83752, "longitude": 86.22605, "population": 1602},
-  {"village_id": "V15", "name": "Village_15", "district": "Kendrapara", "latitude": 20.49578, "longitude": 86.64994, "population": 1832},
-  {"village_id": "V16", "name": "Village_16", "district": "Ganjam", "latitude": 19.43262, "longitude": 84.75702, "population": 830},
-  {"village_id": "V17", "name": "Village_17", "district": "Kendrapara", "latitude": 20.70066, "longitude": 86.38967, "population": 1446},
-  {"village_id": "V18", "name": "Village_18", "district": "Puri", "latitude": 19.92207, "longitude": 86.01113, "population": 1767},
-  {"village_id": "V19", "name": "Village_19", "district": "Jagatsinghpur", "latitude": 20.45418, "longitude": 86.06807, "population": 1469},
-  {"village_id": "V20", "name": "Village_20", "district": "Ganjam", "latitude": 19.68939, "longitude": 84.78132, "population": 1006},
-  {"village_id": "V21", "name": "Village_21", "district": "Kendrapara", "latitude": 20.60404, "longitude": 86.56849, "population": 1246},
-  {"village_id": "V22", "name": "Village_22", "district": "Puri", "latitude": 19.89041, "longitude": 85.83002, "population": 998},
-  {"village_id": "V23", "name": "Village_23", "district": "Jagatsinghpur", "latitude": 20.26945, "longitude": 86.17201, "population": 1366},
-  {"village_id": "V24", "name": "Village_24", "district": "Jagatsinghpur", "latitude": 20.39144, "longitude": 86.31625, "population": 915},
-  {"village_id": "V25", "name": "Village_25", "district": "Jagatsinghpur", "latitude": 20.44544, "longitude": 86.27208, "population": 1640},
-  {"village_id": "V26", "name": "Village_26", "district": "Kendrapara", "latitude": 20.45722, "longitude": 86.33283, "population": 1248},
-  {"village_id": "V27", "name": "Village_27", "district": "Kendrapara", "latitude": 20.65675, "longitude": 86.68443, "population": 1759},
-  {"village_id": "V28", "name": "Village_28", "district": "Kendrapara", "latitude": 20.6428, "longitude": 86.5998, "population": 919},
-  {"village_id": "V29", "name": "Village_29", "district": "Jagatsinghpur", "latitude": 20.48161, "longitude": 86.2689, "population": 1014},
-  {"village_id": "V30", "name": "Village_30", "district": "Jagatsinghpur", "latitude": 20.59465, "longitude": 86.3376, "population": 1584},
-  {"village_id": "V31", "name": "Village_31", "district": "Ganjam", "latitude": 19.54412, "longitude": 84.9019, "population": 1336},
-  {"village_id": "V32", "name": "Village_32", "district": "Kendrapara", "latitude": 20.62742, "longitude": 86.52381, "population": 1153},
-  {"village_id": "V33", "name": "Village_33", "district": "Ganjam", "latitude": 19.50429, "longitude": 84.89476, "population": 1888},
-  {"village_id": "V34", "name": "Village_34", "district": "Puri", "latitude": 19.88609, "longitude": 85.92667, "population": 913},
-  {"village_id": "V35", "name": "Village_35", "district": "Kendrapara", "latitude": 20.45454, "longitude": 86.58464, "population": 1734},
-  {"village_id": "V36", "name": "Village_36", "district": "Ganjam", "latitude": 19.69737, "longitude": 84.97887, "population": 1614},
-  {"village_id": "V37", "name": "Village_37", "district": "Ganjam", "latitude": 19.60967, "longitude": 84.74652, "population": 1549},
-  {"village_id": "V38", "name": "Village_38", "district": "Ganjam", "latitude": 19.37641, "longitude": 84.80433, "population": 1735},
-  {"village_id": "V39", "name": "Village_39", "district": "Kendrapara", "latitude": 20.5842, "longitude": 86.66892, "population": 945},
-  {"village_id": "V40", "name": "Village_40", "district": "Ganjam", "latitude": 19.40137, "longitude": 84.84099, "population": 1308},
-  {"village_id": "V41", "name": "Village_41", "district": "Kendrapara", "latitude": 20.63598, "longitude": 86.53008, "population": 1477},
-  {"village_id": "V42", "name": "Village_42", "district": "Kendrapara", "latitude": 20.44268, "longitude": 86.34123, "population": 1158},
-  {"village_id": "V43", "name": "Village_43", "district": "Kendrapara", "latitude": 20.73406, "longitude": 86.50747, "population": 1267},
-  {"village_id": "V44", "name": "Village_44", "district": "Jagatsinghpur", "latitude": 20.41821, "longitude": 86.01639, "population": 937},
-  {"village_id": "V45", "name": "Village_45", "district": "Jagatsinghpur", "latitude": 20.45321, "longitude": 86.15619, "population": 985},
-  {"village_id": "V46", "name": "Village_46", "district": "Kendrapara", "latitude": 20.52005, "longitude": 86.51226, "population": 1358},
-  {"village_id": "V47", "name": "Village_47", "district": "Kendrapara", "latitude": 20.45466, "longitude": 86.62586, "population": 1094},
-  {"village_id": "V48", "name": "Village_48", "district": "Jagatsinghpur", "latitude": 20.37028, "longitude": 86.01433, "population": 1528},
-  {"village_id": "V49", "name": "Village_49", "district": "Jagatsinghpur", "latitude": 20.36636, "longitude": 86.25871, "population": 1993},
-  {"village_id": "V50", "name": "Village_50", "district": "Jagatsinghpur", "latitude": 20.28184, "longitude": 86.2001, "population": 1344},
-  {"village_id": "V51", "name": "Village_51", "district": "Jagatsinghpur", "latitude": 20.28741, "longitude": 86.07513, "population": 1226},
-  {"village_id": "V52", "name": "Village_52", "district": "Jagatsinghpur", "latitude": 20.25255, "longitude": 86.1056, "population": 986},
-  {"village_id": "V53", "name": "Village_53", "district": "Puri", "latitude": 19.92727, "longitude": 85.60838, "population": 1787},
-  {"village_id": "V54", "name": "Village_54", "district": "Jagatsinghpur", "latitude": 20.49178, "longitude": 86.14258, "population": 837},
-  {"village_id": "V55", "name": "Village_55", "district": "Jagatsinghpur", "latitude": 20.44976, "longitude": 86.33037, "population": 1584},
-  {"village_id": "V56", "name": "Village_56", "district": "Jagatsinghpur", "latitude": 20.54172, "longitude": 86.20577, "population": 1542},
-  {"village_id": "V57", "name": "Village_57", "district": "Kendrapara", "latitude": 20.53568, "longitude": 86.46233, "population": 1888},
-  {"village_id": "V58", "name": "Village_58", "district": "Jagatsinghpur", "latitude": 20.30881, "longitude": 86.2868, "population": 1958},
-  {"village_id": "V59", "name": "Village_59", "district": "Puri", "latitude": 20.06229, "longitude": 86.06049, "population": 1616},
-  {"village_id": "V60", "name": "Village_60", "district": "Kendrapara", "latitude": 20.49791, "longitude": 86.32099, "population": 1455},
-  {"village_id": "V61", "name": "Village_61", "district": "Jagatsinghpur", "latitude": 20.47257, "longitude": 86.33556, "population": 1677},
-  {"village_id": "V62", "name": "Village_62", "district": "Kendrapara", "latitude": 20.74033, "longitude": 86.62032, "population": 1390},
-  {"village_id": "V63", "name": "Village_63", "district": "Ganjam", "latitude": 19.36095, "longitude": 84.93995, "population": 1289},
-  {"village_id": "V64", "name": "Village_64", "district": "Ganjam", "latitude": 19.25137, "longitude": 84.86117, "population": 1782},
-  {"village_id": "V65", "name": "Village_65", "district": "Puri", "latitude": 19.8983, "longitude": 86.21181, "population": 1385},
-  {"village_id": "V66", "name": "Village_66", "district": "Kendrapara", "latitude": 20.75978, "longitude": 86.46605, "population": 1210},
-  {"village_id": "V67", "name": "Village_67", "district": "Kendrapara", "latitude": 20.45117, "longitude": 86.68214, "population": 929},
-  {"village_id": "V68", "name": "Village_68", "district": "Kendrapara", "latitude": 20.7614, "longitude": 86.62449, "population": 1820},
-  {"village_id": "V69", "name": "Village_69", "district": "Ganjam", "latitude": 19.36534, "longitude": 84.76129, "population": 1180},
-  {"village_id": "V70", "name": "Village_70", "district": "Ganjam", "latitude": 19.58445, "longitude": 84.93503, "population": 1168},
-  {"village_id": "V71", "name": "Village_71", "district": "Kendrapara", "latitude": 20.53446, "longitude": 86.67372, "population": 1468},
-  {"village_id": "V72", "name": "Village_72", "district": "Jagatsinghpur", "latitude": 20.42662, "longitude": 86.24633, "population": 1120},
-  {"village_id": "V73", "name": "Village_73", "district": "Puri", "latitude": 19.99607, "longitude": 85.85934, "population": 1425},
-  {"village_id": "V74", "name": "Village_74", "district": "Kendrapara", "latitude": 20.68371, "longitude": 86.6285, "population": 1779},
-  {"village_id": "V75", "name": "Village_75", "district": "Jagatsinghpur", "latitude": 20.35625, "longitude": 86.11106, "population": 1033},
-  {"village_id": "V76", "name": "Village_76", "district": "Ganjam", "latitude": 19.58135, "longitude": 84.968, "population": 1280},
-  {"village_id": "V77", "name": "Village_77", "district": "Ganjam", "latitude": 19.35746, "longitude": 84.94875, "population": 1225},
-  {"village_id": "V78", "name": "Village_78", "district": "Kendrapara", "latitude": 20.66092, "longitude": 86.53057, "population": 1480},
-  {"village_id": "V79", "name": "Village_79", "district": "Kendrapara", "latitude": 20.7179, "longitude": 86.53006, "population": 1225},
-  {"village_id": "V80", "name": "Village_80", "district": "Puri", "latitude": 19.95043, "longitude": 85.81251, "population": 1041},
-  {"village_id": "V81", "name": "Village_81", "district": "Kendrapara", "latitude": 20.53665, "longitude": 86.42144, "population": 1066},
-  {"village_id": "V82", "name": "Village_82", "district": "Jagatsinghpur", "latitude": 20.56073, "longitude": 86.08332, "population": 1220},
-  {"village_id": "V83", "name": "Village_83", "district": "Jagatsinghpur", "latitude": 20.44392, "longitude": 86.18079, "population": 1112},
-  {"village_id": "V84", "name": "Village_84", "district": "Kendrapara", "latitude": 20.55198, "longitude": 86.30787, "population": 950},
-  {"village_id": "V85", "name": "Village_85", "district": "Kendrapara", "latitude": 20.43125, "longitude": 86.57681, "population": 851},
-  {"village_id": "V86", "name": "Village_86", "district": "Kendrapara", "latitude": 20.59137, "longitude": 86.42615, "population": 1609},
-  {"village_id": "V87", "name": "Village_87", "district": "Jagatsinghpur", "latitude": 20.53496, "longitude": 86.18064, "population": 1044},
-  {"village_id": "V88", "name": "Village_88", "district": "Kendrapara", "latitude": 20.69603, "longitude": 86.43786, "population": 1135},
-  {"village_id": "V89", "name": "Village_89", "district": "Puri", "latitude": 20.12051, "longitude": 85.71857, "population": 1993},
-  {"village_id": "V90", "name": "Village_90", "district": "Jagatsinghpur", "latitude": 20.35317, "longitude": 86.39622, "population": 1136},
-  {"village_id": "V91", "name": "Village_91", "district": "Kendrapara", "latitude": 20.65911, "longitude": 86.48592, "population": 1216},
-  {"village_id": "V92", "name": "Village_92", "district": "Ganjam", "latitude": 19.58325, "longitude": 84.784, "population": 1183},
-  {"village_id": "V93", "name": "Village_93", "district": "Puri", "latitude": 20.17662, "longitude": 86.04023, "population": 1658},
-  {"village_id": "V94", "name": "Village_94", "district": "Jagatsinghpur", "latitude": 20.55369, "longitude": 86.20054, "population": 1622},
-  {"village_id": "V95", "name": "Village_95", "district": "Ganjam", "latitude": 19.62388, "longitude": 84.8028, "population": 862},
-  {"village_id": "V96", "name": "Village_96", "district": "Puri", "latitude": 20.19443, "longitude": 86.02122, "population": 1953},
-  {"village_id": "V97", "name": "Village_97", "district": "Puri", "latitude": 20.19625, "longitude": 85.6368, "population": 1492},
-  {"village_id": "V98", "name": "Village_98", "district": "Puri", "latitude": 20.0003, "longitude": 85.81258, "population": 1303},
-  {"village_id": "V99", "name": "Village_99", "district": "Ganjam", "latitude": 19.35479, "longitude": 84.89765, "population": 1214},
-  {"village_id": "V100", "name": "Village_100", "district": "Kendrapara", "latitude": 20.42178, "longitude": 86.62635, "population": 843},
-  {"village_id": "V101", "name": "Village_101", "district": "Ganjam", "latitude": 19.5477, "longitude": 84.95041, "population": 967},
-  {"village_id": "V102", "name": "Village_102", "district": "Kendrapara", "latitude": 20.50881, "longitude": 86.56318, "population": 1988},
-  {"village_id": "V103", "name": "Village_103", "district": "Puri", "latitude": 20.05113, "longitude": 85.61011, "population": 1547},
-  {"village_id": "V104", "name": "Village_104", "district": "Kendrapara", "latitude": 20.43225, "longitude": 86.33275, "population": 1139},
-  {"village_id": "V105", "name": "Village_105", "district": "Jagatsinghpur", "latitude": 20.47878, "longitude": 86.06368, "population": 1425},
-  {"village_id": "V106", "name": "Village_106", "district": "Kendrapara", "latitude": 20.49518, "longitude": 86.35671, "population": 1692},
-  {"village_id": "V107", "name": "Village_107", "district": "Puri", "latitude": 20.07122, "longitude": 85.7892, "population": 1288},
-  {"village_id": "V108", "name": "Village_108", "district": "Puri", "latitude": 19.97056, "longitude": 86.27777, "population": 862},
-  {"village_id": "V109", "name": "Village_109", "district": "Puri", "latitude": 19.80697, "longitude": 85.98854, "population": 889},
-  {"village_id": "V110", "name": "Village_110", "district": "Puri", "latitude": 20.17331, "longitude": 85.6899, "population": 843},
-  {"village_id": "V111", "name": "Village_111", "district": "Jagatsinghpur", "latitude": 20.56073, "longitude": 86.0959, "population": 857},
-  {"village_id": "V112", "name": "Village_112", "district": "Puri", "latitude": 19.91138, "longitude": 86.09557, "population": 1314},
-  {"village_id": "V113", "name": "Village_113", "district": "Puri", "latitude": 20.06583, "longitude": 85.7743, "population": 1146},
-  {"village_id": "V114", "name": "Village_114", "district": "Kendrapara", "latitude": 20.48361, "longitude": 86.64442, "population": 1697},
-  {"village_id": "V115", "name": "Village_115", "district": "Kendrapara", "latitude": 20.71413, "longitude": 86.68155, "population": 1566},
-  {"village_id": "V116", "name": "Village_116", "district": "Jagatsinghpur", "latitude": 20.37467, "longitude": 86.01486, "population": 1284},
-  {"village_id": "V117", "name": "Village_117", "district": "Kendrapara", "latitude": 20.65013, "longitude": 86.48346, "population": 1081},
-  {"village_id": "V118", "name": "Village_118", "district": "Puri", "latitude": 19.80341, "longitude": 85.96612, "population": 1683},
-  {"village_id": "V119", "name": "Village_119", "district": "Ganjam", "latitude": 19.612, "longitude": 84.93669, "population": 1913},
-  {"village_id": "V120", "name": "Village_120", "district": "Ganjam", "latitude": 19.43425, "longitude": 84.77199, "population": 847},
-  {"village_id": "V121", "name": "Village_121", "district": "Puri", "latitude": 19.82643, "longitude": 86.07095, "population": 1387},
-  {"village_id": "V122", "name": "Village_122", "district": "Ganjam", "latitude": 19.55734, "longitude": 84.95344, "population": 1670},
-  {"village_id": "V123", "name": "Village_123", "district": "Jagatsinghpur", "latitude": 20.51925, "longitude": 86.27029, "population": 1544},
-  {"village_id": "V124", "name": "Village_124", "district": "Ganjam", "latitude": 19.54707, "longitude": 84.72015, "population": 1562},
-  {"village_id": "V125", "name": "Village_125", "district": "Kendrapara", "latitude": 20.77628, "longitude": 86.46329, "population": 1804},
-  {"village_id": "V126", "name": "Village_126", "district": "Jagatsinghpur", "latitude": 20.21883, "longitude": 86.08004, "population": 1682},
-  {"village_id": "V127", "name": "Village_127", "district": "Puri", "latitude": 20.1481, "longitude": 85.6796, "population": 1359},
-  {"village_id": "V128", "name": "Village_128", "district": "Jagatsinghpur", "latitude": 20.3334, "longitude": 86.07497, "population": 1321},
-  {"village_id": "V129", "name": "Village_129", "district": "Ganjam", "latitude": 19.54267, "longitude": 84.89959, "population": 1344},
-  {"village_id": "V130", "name": "Village_130", "district": "Puri", "latitude": 20.14525, "longitude": 85.82918, "population": 935},
-  {"village_id": "V131", "name": "Village_131", "district": "Kendrapara", "latitude": 20.72345, "longitude": 86.42408, "population": 1883},
-  {"village_id": "V132", "name": "Village_132", "district": "Puri", "latitude": 19.88813, "longitude": 85.98683, "population": 1338},
-  {"village_id": "V133", "name": "Village_133", "district": "Jagatsinghpur", "latitude": 20.28149, "longitude": 86.02582, "population": 859},
-  {"village_id": "V134", "name": "Village_134", "district": "Ganjam", "latitude": 19.52288, "longitude": 84.88281, "population": 1135},
-  {"village_id": "V135", "name": "Village_135", "district": "Kendrapara", "latitude": 20.77662, "longitude": 86.60007, "population": 841},
-  {"village_id": "V136", "name": "Village_136", "district": "Ganjam", "latitude": 19.62472, "longitude": 84.70051, "population": 1487},
-  {"village_id": "V137", "name": "Village_137", "district": "Jagatsinghpur", "latitude": 20.46807, "longitude": 86.19424, "population": 1118},
-  {"village_id": "V138", "name": "Village_138", "district": "Jagatsinghpur", "latitude": 20.24472, "longitude": 86.2306, "population": 1630},
-  {"village_id": "V139", "name": "Village_139", "district": "Ganjam", "latitude": 19.26272, "longitude": 84.74035, "population": 1087},
-  {"village_id": "V140", "name": "Village_140", "district": "Ganjam", "latitude": 19.46171, "longitude": 84.79959, "population": 838},
-  {"village_id": "V141", "name": "Village_141", "district": "Ganjam", "latitude": 19.67108, "longitude": 84.80248, "population": 1900},
-  {"village_id": "V142", "name": "Village_142", "district": "Ganjam", "latitude": 19.51477, "longitude": 84.93485, "population": 1384},
-  {"village_id": "V143", "name": "Village_143", "district": "Jagatsinghpur", "latitude": 20.47329, "longitude": 86.06592, "population": 842},
-  {"village_id": "V144", "name": "Village_144", "district": "Ganjam", "latitude": 19.4396, "longitude": 84.93311, "population": 1874},
-  {"village_id": "V145", "name": "Village_145", "district": "Puri", "latitude": 19.80139, "longitude": 85.62212, "population": 1801},
-  {"village_id": "V146", "name": "Village_146", "district": "Kendrapara", "latitude": 20.52763, "longitude": 86.4025, "population": 1536},
-  {"village_id": "V147", "name": "Village_147", "district": "Ganjam", "latitude": 19.62087, "longitude": 84.90389, "population": 1893},
-  {"village_id": "V148", "name": "Village_148", "district": "Jagatsinghpur", "latitude": 20.20079, "longitude": 86.37796, "population": 1799},
-  {"village_id": "V149", "name": "Village_149", "district": "Puri", "latitude": 20.09261, "longitude": 86.07301, "population": 1821},
-  {"village_id": "V150", "name": "Village_150", "district": "Ganjam", "latitude": 19.35789, "longitude": 84.87649, "population": 1889}
+  {
+    "village_id": "V1",
+    "name": "Village_1",
+    "district": "Jagatsinghpur",
+    "latitude": 20.32018,
+    "longitude": 86.19164,
+    "population": 955
+  },
+  {
+    "village_id": "V2",
+    "name": "Village_2",
+    "district": "Jagatsinghpur",
+    "latitude": 20.27552,
+    "longitude": 86.249,
+    "population": 1026
+  },
+  {
+    "village_id": "V3",
+    "name": "Village_3",
+    "district": "Puri",
+    "latitude": 20.18633,
+    "longitude": 86.24114,
+    "population": 1894
+  },
+  {
+    "village_id": "V4",
+    "name": "Village_4",
+    "district": "Ganjam",
+    "latitude": 19.33841,
+    "longitude": 84.71258,
+    "population": 1520
+  },
+  {
+    "village_id": "V5",
+    "name": "Village_5",
+    "district": "Kendrapara",
+    "latitude": 20.69876,
+    "longitude": 86.50589,
+    "population": 1383
+  },
+  {
+    "village_id": "V6",
+    "name": "Village_6",
+    "district": "Kendrapara",
+    "latitude": 20.49961,
+    "longitude": 86.64148,
+    "population": 911
+  },
+  {
+    "village_id": "V7",
+    "name": "Village_7",
+    "district": "Kendrapara",
+    "latitude": 20.79577,
+    "longitude": 86.42464,
+    "population": 1189
+  },
+  {
+    "village_id": "V8",
+    "name": "Village_8",
+    "district": "Puri",
+    "latitude": 20.11297,
+    "longitude": 86.28349,
+    "population": 992
+  },
+  {
+    "village_id": "V9",
+    "name": "Village_9",
+    "district": "Jagatsinghpur",
+    "latitude": 20.49941,
+    "longitude": 86.38322,
+    "population": 943
+  },
+  {
+    "village_id": "V10",
+    "name": "Village_10",
+    "district": "Puri",
+    "latitude": 19.99664,
+    "longitude": 86.05923,
+    "population": 1032
+  },
+  {
+    "village_id": "V11",
+    "name": "Village_11",
+    "district": "Jagatsinghpur",
+    "latitude": 20.30102,
+    "longitude": 86.03905,
+    "population": 1388
+  },
+  {
+    "village_id": "V12",
+    "name": "Village_12",
+    "district": "Ganjam",
+    "latitude": 19.62274,
+    "longitude": 84.78651,
+    "population": 1774
+  },
+  {
+    "village_id": "V13",
+    "name": "Village_13",
+    "district": "Jagatsinghpur",
+    "latitude": 20.48086,
+    "longitude": 86.07074,
+    "population": 1620
+  },
+  {
+    "village_id": "V15",
+    "name": "Village_15",
+    "district": "Kendrapara",
+    "latitude": 20.49578,
+    "longitude": 86.64994,
+    "population": 1832
+  },
+  {
+    "village_id": "V16",
+    "name": "Village_16",
+    "district": "Ganjam",
+    "latitude": 19.43262,
+    "longitude": 84.75702,
+    "population": 830
+  },
+  {
+    "village_id": "V17",
+    "name": "Village_17",
+    "district": "Kendrapara",
+    "latitude": 20.70066,
+    "longitude": 86.38967,
+    "population": 1446
+  },
+  {
+    "village_id": "V18",
+    "name": "Village_18",
+    "district": "Puri",
+    "latitude": 19.92207,
+    "longitude": 86.01113,
+    "population": 1767
+  },
+  {
+    "village_id": "V19",
+    "name": "Village_19",
+    "district": "Jagatsinghpur",
+    "latitude": 20.45418,
+    "longitude": 86.06807,
+    "population": 1469
+  },
+  {
+    "village_id": "V20",
+    "name": "Village_20",
+    "district": "Ganjam",
+    "latitude": 19.68939,
+    "longitude": 84.78132,
+    "population": 1006
+  },
+  {
+    "village_id": "V21",
+    "name": "Village_21",
+    "district": "Kendrapara",
+    "latitude": 20.60404,
+    "longitude": 86.56849,
+    "population": 1246
+  },
+  {
+    "village_id": "V22",
+    "name": "Village_22",
+    "district": "Puri",
+    "latitude": 19.89041,
+    "longitude": 85.83002,
+    "population": 998
+  },
+  {
+    "village_id": "V23",
+    "name": "Village_23",
+    "district": "Jagatsinghpur",
+    "latitude": 20.26945,
+    "longitude": 86.17201,
+    "population": 1366
+  },
+  {
+    "village_id": "V24",
+    "name": "Village_24",
+    "district": "Jagatsinghpur",
+    "latitude": 20.39144,
+    "longitude": 86.31625,
+    "population": 915
+  },
+  {
+    "village_id": "V25",
+    "name": "Village_25",
+    "district": "Jagatsinghpur",
+    "latitude": 20.44544,
+    "longitude": 86.27208,
+    "population": 1640
+  },
+  {
+    "village_id": "V26",
+    "name": "Village_26",
+    "district": "Kendrapara",
+    "latitude": 20.45722,
+    "longitude": 86.33283,
+    "population": 1248
+  },
+  {
+    "village_id": "V27",
+    "name": "Village_27",
+    "district": "Kendrapara",
+    "latitude": 20.65675,
+    "longitude": 86.68443,
+    "population": 1759
+  },
+  {
+    "village_id": "V28",
+    "name": "Village_28",
+    "district": "Kendrapara",
+    "latitude": 20.6428,
+    "longitude": 86.5998,
+    "population": 919
+  },
+  {
+    "village_id": "V29",
+    "name": "Village_29",
+    "district": "Jagatsinghpur",
+    "latitude": 20.48161,
+    "longitude": 86.2689,
+    "population": 1014
+  },
+  {
+    "village_id": "V30",
+    "name": "Village_30",
+    "district": "Jagatsinghpur",
+    "latitude": 20.59465,
+    "longitude": 86.3376,
+    "population": 1584
+  },
+  {
+    "village_id": "V31",
+    "name": "Village_31",
+    "district": "Ganjam",
+    "latitude": 19.54412,
+    "longitude": 84.9019,
+    "population": 1336
+  },
+  {
+    "village_id": "V32",
+    "name": "Village_32",
+    "district": "Kendrapara",
+    "latitude": 20.62742,
+    "longitude": 86.52381,
+    "population": 1153
+  },
+  {
+    "village_id": "V33",
+    "name": "Village_33",
+    "district": "Ganjam",
+    "latitude": 19.50429,
+    "longitude": 84.89476,
+    "population": 1888
+  },
+  {
+    "village_id": "V34",
+    "name": "Village_34",
+    "district": "Puri",
+    "latitude": 19.88609,
+    "longitude": 85.92667,
+    "population": 913
+  },
+  {
+    "village_id": "V35",
+    "name": "Village_35",
+    "district": "Kendrapara",
+    "latitude": 20.45454,
+    "longitude": 86.58464,
+    "population": 1734
+  },
+  {
+    "village_id": "V36",
+    "name": "Village_36",
+    "district": "Ganjam",
+    "latitude": 19.69737,
+    "longitude": 84.97887,
+    "population": 1614
+  },
+  {
+    "village_id": "V37",
+    "name": "Village_37",
+    "district": "Ganjam",
+    "latitude": 19.60967,
+    "longitude": 84.74652,
+    "population": 1549
+  },
+  {
+    "village_id": "V38",
+    "name": "Village_38",
+    "district": "Ganjam",
+    "latitude": 19.37641,
+    "longitude": 84.80433,
+    "population": 1735
+  },
+  {
+    "village_id": "V39",
+    "name": "Village_39",
+    "district": "Kendrapara",
+    "latitude": 20.5842,
+    "longitude": 86.66892,
+    "population": 945
+  },
+  {
+    "village_id": "V40",
+    "name": "Village_40",
+    "district": "Ganjam",
+    "latitude": 19.40137,
+    "longitude": 84.84099,
+    "population": 1308
+  },
+  {
+    "village_id": "V41",
+    "name": "Village_41",
+    "district": "Kendrapara",
+    "latitude": 20.63598,
+    "longitude": 86.53008,
+    "population": 1477
+  },
+  {
+    "village_id": "V42",
+    "name": "Village_42",
+    "district": "Kendrapara",
+    "latitude": 20.44268,
+    "longitude": 86.34123,
+    "population": 1158
+  },
+  {
+    "village_id": "V43",
+    "name": "Village_43",
+    "district": "Kendrapara",
+    "latitude": 20.73406,
+    "longitude": 86.50747,
+    "population": 1267
+  },
+  {
+    "village_id": "V44",
+    "name": "Village_44",
+    "district": "Jagatsinghpur",
+    "latitude": 20.41821,
+    "longitude": 86.01639,
+    "population": 937
+  },
+  {
+    "village_id": "V45",
+    "name": "Village_45",
+    "district": "Jagatsinghpur",
+    "latitude": 20.45321,
+    "longitude": 86.15619,
+    "population": 985
+  },
+  {
+    "village_id": "V46",
+    "name": "Village_46",
+    "district": "Kendrapara",
+    "latitude": 20.52005,
+    "longitude": 86.51226,
+    "population": 1358
+  },
+  {
+    "village_id": "V47",
+    "name": "Village_47",
+    "district": "Kendrapara",
+    "latitude": 20.45466,
+    "longitude": 86.62586,
+    "population": 1094
+  },
+  {
+    "village_id": "V48",
+    "name": "Village_48",
+    "district": "Jagatsinghpur",
+    "latitude": 20.37028,
+    "longitude": 86.01433,
+    "population": 1528
+  },
+  {
+    "village_id": "V49",
+    "name": "Village_49",
+    "district": "Jagatsinghpur",
+    "latitude": 20.36636,
+    "longitude": 86.25871,
+    "population": 1993
+  },
+  {
+    "village_id": "V50",
+    "name": "Village_50",
+    "district": "Jagatsinghpur",
+    "latitude": 20.28184,
+    "longitude": 86.2001,
+    "population": 1344
+  },
+  {
+    "village_id": "V51",
+    "name": "Village_51",
+    "district": "Jagatsinghpur",
+    "latitude": 20.28741,
+    "longitude": 86.07513,
+    "population": 1226
+  },
+  {
+    "village_id": "V52",
+    "name": "Village_52",
+    "district": "Jagatsinghpur",
+    "latitude": 20.25255,
+    "longitude": 86.1056,
+    "population": 986
+  },
+  {
+    "village_id": "V53",
+    "name": "Village_53",
+    "district": "Puri",
+    "latitude": 19.92727,
+    "longitude": 85.60838,
+    "population": 1787
+  },
+  {
+    "village_id": "V54",
+    "name": "Village_54",
+    "district": "Jagatsinghpur",
+    "latitude": 20.49178,
+    "longitude": 86.14258,
+    "population": 837
+  },
+  {
+    "village_id": "V55",
+    "name": "Village_55",
+    "district": "Jagatsinghpur",
+    "latitude": 20.44976,
+    "longitude": 86.33037,
+    "population": 1584
+  },
+  {
+    "village_id": "V56",
+    "name": "Village_56",
+    "district": "Jagatsinghpur",
+    "latitude": 20.54172,
+    "longitude": 86.20577,
+    "population": 1542
+  },
+  {
+    "village_id": "V57",
+    "name": "Village_57",
+    "district": "Kendrapara",
+    "latitude": 20.53568,
+    "longitude": 86.46233,
+    "population": 1888
+  },
+  {
+    "village_id": "V58",
+    "name": "Village_58",
+    "district": "Jagatsinghpur",
+    "latitude": 20.30881,
+    "longitude": 86.2868,
+    "population": 1958
+  },
+  {
+    "village_id": "V59",
+    "name": "Village_59",
+    "district": "Puri",
+    "latitude": 20.06229,
+    "longitude": 86.06049,
+    "population": 1616
+  },
+  {
+    "village_id": "V60",
+    "name": "Village_60",
+    "district": "Kendrapara",
+    "latitude": 20.49791,
+    "longitude": 86.32099,
+    "population": 1455
+  },
+  {
+    "village_id": "V61",
+    "name": "Village_61",
+    "district": "Jagatsinghpur",
+    "latitude": 20.47257,
+    "longitude": 86.33556,
+    "population": 1677
+  },
+  {
+    "village_id": "V62",
+    "name": "Village_62",
+    "district": "Kendrapara",
+    "latitude": 20.74033,
+    "longitude": 86.62032,
+    "population": 1390
+  },
+  {
+    "village_id": "V63",
+    "name": "Village_63",
+    "district": "Ganjam",
+    "latitude": 19.36095,
+    "longitude": 84.93995,
+    "population": 1289
+  },
+  {
+    "village_id": "V66",
+    "name": "Village_66",
+    "district": "Kendrapara",
+    "latitude": 20.75978,
+    "longitude": 86.46605,
+    "population": 1210
+  },
+  {
+    "village_id": "V67",
+    "name": "Village_67",
+    "district": "Kendrapara",
+    "latitude": 20.45117,
+    "longitude": 86.68214,
+    "population": 929
+  },
+  {
+    "village_id": "V68",
+    "name": "Village_68",
+    "district": "Kendrapara",
+    "latitude": 20.7614,
+    "longitude": 86.62449,
+    "population": 1820
+  },
+  {
+    "village_id": "V69",
+    "name": "Village_69",
+    "district": "Ganjam",
+    "latitude": 19.36534,
+    "longitude": 84.76129,
+    "population": 1180
+  },
+  {
+    "village_id": "V70",
+    "name": "Village_70",
+    "district": "Ganjam",
+    "latitude": 19.58445,
+    "longitude": 84.93503,
+    "population": 1168
+  },
+  {
+    "village_id": "V71",
+    "name": "Village_71",
+    "district": "Kendrapara",
+    "latitude": 20.53446,
+    "longitude": 86.67372,
+    "population": 1468
+  },
+  {
+    "village_id": "V72",
+    "name": "Village_72",
+    "district": "Jagatsinghpur",
+    "latitude": 20.42662,
+    "longitude": 86.24633,
+    "population": 1120
+  },
+  {
+    "village_id": "V73",
+    "name": "Village_73",
+    "district": "Puri",
+    "latitude": 19.99607,
+    "longitude": 85.85934,
+    "population": 1425
+  },
+  {
+    "village_id": "V74",
+    "name": "Village_74",
+    "district": "Kendrapara",
+    "latitude": 20.68371,
+    "longitude": 86.6285,
+    "population": 1779
+  },
+  {
+    "village_id": "V75",
+    "name": "Village_75",
+    "district": "Jagatsinghpur",
+    "latitude": 20.35625,
+    "longitude": 86.11106,
+    "population": 1033
+  },
+  {
+    "village_id": "V76",
+    "name": "Village_76",
+    "district": "Ganjam",
+    "latitude": 19.58135,
+    "longitude": 84.968,
+    "population": 1280
+  },
+  {
+    "village_id": "V77",
+    "name": "Village_77",
+    "district": "Ganjam",
+    "latitude": 19.35746,
+    "longitude": 84.94875,
+    "population": 1225
+  },
+  {
+    "village_id": "V78",
+    "name": "Village_78",
+    "district": "Kendrapara",
+    "latitude": 20.66092,
+    "longitude": 86.53057,
+    "population": 1480
+  },
+  {
+    "village_id": "V79",
+    "name": "Village_79",
+    "district": "Kendrapara",
+    "latitude": 20.7179,
+    "longitude": 86.53006,
+    "population": 1225
+  },
+  {
+    "village_id": "V80",
+    "name": "Village_80",
+    "district": "Puri",
+    "latitude": 19.95043,
+    "longitude": 85.81251,
+    "population": 1041
+  },
+  {
+    "village_id": "V81",
+    "name": "Village_81",
+    "district": "Kendrapara",
+    "latitude": 20.53665,
+    "longitude": 86.42144,
+    "population": 1066
+  },
+  {
+    "village_id": "V82",
+    "name": "Village_82",
+    "district": "Jagatsinghpur",
+    "latitude": 20.56073,
+    "longitude": 86.08332,
+    "population": 1220
+  },
+  {
+    "village_id": "V83",
+    "name": "Village_83",
+    "district": "Jagatsinghpur",
+    "latitude": 20.44392,
+    "longitude": 86.18079,
+    "population": 1112
+  },
+  {
+    "village_id": "V84",
+    "name": "Village_84",
+    "district": "Kendrapara",
+    "latitude": 20.55198,
+    "longitude": 86.30787,
+    "population": 950
+  },
+  {
+    "village_id": "V85",
+    "name": "Village_85",
+    "district": "Kendrapara",
+    "latitude": 20.43125,
+    "longitude": 86.57681,
+    "population": 851
+  },
+  {
+    "village_id": "V86",
+    "name": "Village_86",
+    "district": "Kendrapara",
+    "latitude": 20.59137,
+    "longitude": 86.42615,
+    "population": 1609
+  },
+  {
+    "village_id": "V87",
+    "name": "Village_87",
+    "district": "Jagatsinghpur",
+    "latitude": 20.53496,
+    "longitude": 86.18064,
+    "population": 1044
+  },
+  {
+    "village_id": "V88",
+    "name": "Village_88",
+    "district": "Kendrapara",
+    "latitude": 20.69603,
+    "longitude": 86.43786,
+    "population": 1135
+  },
+  {
+    "village_id": "V89",
+    "name": "Village_89",
+    "district": "Puri",
+    "latitude": 20.12051,
+    "longitude": 85.71857,
+    "population": 1993
+  },
+  {
+    "village_id": "V90",
+    "name": "Village_90",
+    "district": "Jagatsinghpur",
+    "latitude": 20.35317,
+    "longitude": 86.39622,
+    "population": 1136
+  },
+  {
+    "village_id": "V91",
+    "name": "Village_91",
+    "district": "Kendrapara",
+    "latitude": 20.65911,
+    "longitude": 86.48592,
+    "population": 1216
+  },
+  {
+    "village_id": "V92",
+    "name": "Village_92",
+    "district": "Ganjam",
+    "latitude": 19.58325,
+    "longitude": 84.784,
+    "population": 1183
+  },
+  {
+    "village_id": "V93",
+    "name": "Village_93",
+    "district": "Puri",
+    "latitude": 20.17662,
+    "longitude": 86.04023,
+    "population": 1658
+  },
+  {
+    "village_id": "V94",
+    "name": "Village_94",
+    "district": "Jagatsinghpur",
+    "latitude": 20.55369,
+    "longitude": 86.20054,
+    "population": 1622
+  },
+  {
+    "village_id": "V95",
+    "name": "Village_95",
+    "district": "Ganjam",
+    "latitude": 19.62388,
+    "longitude": 84.8028,
+    "population": 862
+  },
+  {
+    "village_id": "V96",
+    "name": "Village_96",
+    "district": "Puri",
+    "latitude": 20.19443,
+    "longitude": 86.02122,
+    "population": 1953
+  },
+  {
+    "village_id": "V97",
+    "name": "Village_97",
+    "district": "Puri",
+    "latitude": 20.19625,
+    "longitude": 85.6368,
+    "population": 1492
+  },
+  {
+    "village_id": "V98",
+    "name": "Village_98",
+    "district": "Puri",
+    "latitude": 20.0003,
+    "longitude": 85.81258,
+    "population": 1303
+  },
+  {
+    "village_id": "V99",
+    "name": "Village_99",
+    "district": "Ganjam",
+    "latitude": 19.35479,
+    "longitude": 84.89765,
+    "population": 1214
+  },
+  {
+    "village_id": "V100",
+    "name": "Village_100",
+    "district": "Kendrapara",
+    "latitude": 20.42178,
+    "longitude": 86.62635,
+    "population": 843
+  },
+  {
+    "village_id": "V101",
+    "name": "Village_101",
+    "district": "Ganjam",
+    "latitude": 19.5477,
+    "longitude": 84.95041,
+    "population": 967
+  },
+  {
+    "village_id": "V102",
+    "name": "Village_102",
+    "district": "Kendrapara",
+    "latitude": 20.50881,
+    "longitude": 86.56318,
+    "population": 1988
+  },
+  {
+    "village_id": "V103",
+    "name": "Village_103",
+    "district": "Puri",
+    "latitude": 20.05113,
+    "longitude": 85.61011,
+    "population": 1547
+  },
+  {
+    "village_id": "V104",
+    "name": "Village_104",
+    "district": "Kendrapara",
+    "latitude": 20.43225,
+    "longitude": 86.33275,
+    "population": 1139
+  },
+  {
+    "village_id": "V105",
+    "name": "Village_105",
+    "district": "Jagatsinghpur",
+    "latitude": 20.47878,
+    "longitude": 86.06368,
+    "population": 1425
+  },
+  {
+    "village_id": "V106",
+    "name": "Village_106",
+    "district": "Kendrapara",
+    "latitude": 20.49518,
+    "longitude": 86.35671,
+    "population": 1692
+  },
+  {
+    "village_id": "V107",
+    "name": "Village_107",
+    "district": "Puri",
+    "latitude": 20.07122,
+    "longitude": 85.7892,
+    "population": 1288
+  },
+  {
+    "village_id": "V110",
+    "name": "Village_110",
+    "district": "Puri",
+    "latitude": 20.17331,
+    "longitude": 85.6899,
+    "population": 843
+  },
+  {
+    "village_id": "V111",
+    "name": "Village_111",
+    "district": "Jagatsinghpur",
+    "latitude": 20.56073,
+    "longitude": 86.0959,
+    "population": 857
+  },
+  {
+    "village_id": "V112",
+    "name": "Village_112",
+    "district": "Puri",
+    "latitude": 19.91138,
+    "longitude": 86.09557,
+    "population": 1314
+  },
+  {
+    "village_id": "V113",
+    "name": "Village_113",
+    "district": "Puri",
+    "latitude": 20.06583,
+    "longitude": 85.7743,
+    "population": 1146
+  },
+  {
+    "village_id": "V114",
+    "name": "Village_114",
+    "district": "Kendrapara",
+    "latitude": 20.48361,
+    "longitude": 86.64442,
+    "population": 1697
+  },
+  {
+    "village_id": "V115",
+    "name": "Village_115",
+    "district": "Kendrapara",
+    "latitude": 20.71413,
+    "longitude": 86.68155,
+    "population": 1566
+  },
+  {
+    "village_id": "V116",
+    "name": "Village_116",
+    "district": "Jagatsinghpur",
+    "latitude": 20.37467,
+    "longitude": 86.01486,
+    "population": 1284
+  },
+  {
+    "village_id": "V117",
+    "name": "Village_117",
+    "district": "Kendrapara",
+    "latitude": 20.65013,
+    "longitude": 86.48346,
+    "population": 1081
+  },
+  {
+    "village_id": "V119",
+    "name": "Village_119",
+    "district": "Ganjam",
+    "latitude": 19.612,
+    "longitude": 84.93669,
+    "population": 1913
+  },
+  {
+    "village_id": "V120",
+    "name": "Village_120",
+    "district": "Ganjam",
+    "latitude": 19.43425,
+    "longitude": 84.77199,
+    "population": 847
+  },
+  {
+    "village_id": "V122",
+    "name": "Village_122",
+    "district": "Ganjam",
+    "latitude": 19.55734,
+    "longitude": 84.95344,
+    "population": 1670
+  },
+  {
+    "village_id": "V123",
+    "name": "Village_123",
+    "district": "Jagatsinghpur",
+    "latitude": 20.51925,
+    "longitude": 86.27029,
+    "population": 1544
+  },
+  {
+    "village_id": "V124",
+    "name": "Village_124",
+    "district": "Ganjam",
+    "latitude": 19.54707,
+    "longitude": 84.72015,
+    "population": 1562
+  },
+  {
+    "village_id": "V125",
+    "name": "Village_125",
+    "district": "Kendrapara",
+    "latitude": 20.77628,
+    "longitude": 86.46329,
+    "population": 1804
+  },
+  {
+    "village_id": "V126",
+    "name": "Village_126",
+    "district": "Jagatsinghpur",
+    "latitude": 20.21883,
+    "longitude": 86.08004,
+    "population": 1682
+  },
+  {
+    "village_id": "V127",
+    "name": "Village_127",
+    "district": "Puri",
+    "latitude": 20.1481,
+    "longitude": 85.6796,
+    "population": 1359
+  },
+  {
+    "village_id": "V128",
+    "name": "Village_128",
+    "district": "Jagatsinghpur",
+    "latitude": 20.3334,
+    "longitude": 86.07497,
+    "population": 1321
+  },
+  {
+    "village_id": "V129",
+    "name": "Village_129",
+    "district": "Ganjam",
+    "latitude": 19.54267,
+    "longitude": 84.89959,
+    "population": 1344
+  },
+  {
+    "village_id": "V130",
+    "name": "Village_130",
+    "district": "Puri",
+    "latitude": 20.14525,
+    "longitude": 85.82918,
+    "population": 935
+  },
+  {
+    "village_id": "V131",
+    "name": "Village_131",
+    "district": "Kendrapara",
+    "latitude": 20.72345,
+    "longitude": 86.42408,
+    "population": 1883
+  },
+  {
+    "village_id": "V132",
+    "name": "Village_132",
+    "district": "Puri",
+    "latitude": 19.88813,
+    "longitude": 85.98683,
+    "population": 1338
+  },
+  {
+    "village_id": "V133",
+    "name": "Village_133",
+    "district": "Jagatsinghpur",
+    "latitude": 20.28149,
+    "longitude": 86.02582,
+    "population": 859
+  },
+  {
+    "village_id": "V134",
+    "name": "Village_134",
+    "district": "Ganjam",
+    "latitude": 19.52288,
+    "longitude": 84.88281,
+    "population": 1135
+  },
+  {
+    "village_id": "V135",
+    "name": "Village_135",
+    "district": "Kendrapara",
+    "latitude": 20.77662,
+    "longitude": 86.60007,
+    "population": 841
+  },
+  {
+    "village_id": "V136",
+    "name": "Village_136",
+    "district": "Ganjam",
+    "latitude": 19.62472,
+    "longitude": 84.70051,
+    "population": 1487
+  },
+  {
+    "village_id": "V137",
+    "name": "Village_137",
+    "district": "Jagatsinghpur",
+    "latitude": 20.46807,
+    "longitude": 86.19424,
+    "population": 1118
+  },
+  {
+    "village_id": "V138",
+    "name": "Village_138",
+    "district": "Jagatsinghpur",
+    "latitude": 20.24472,
+    "longitude": 86.2306,
+    "population": 1630
+  },
+  {
+    "village_id": "V139",
+    "name": "Village_139",
+    "district": "Ganjam",
+    "latitude": 19.26272,
+    "longitude": 84.74035,
+    "population": 1087
+  },
+  {
+    "village_id": "V140",
+    "name": "Village_140",
+    "district": "Ganjam",
+    "latitude": 19.46171,
+    "longitude": 84.79959,
+    "population": 838
+  },
+  {
+    "village_id": "V141",
+    "name": "Village_141",
+    "district": "Ganjam",
+    "latitude": 19.67108,
+    "longitude": 84.80248,
+    "population": 1900
+  },
+  {
+    "village_id": "V142",
+    "name": "Village_142",
+    "district": "Ganjam",
+    "latitude": 19.51477,
+    "longitude": 84.93485,
+    "population": 1384
+  },
+  {
+    "village_id": "V143",
+    "name": "Village_143",
+    "district": "Jagatsinghpur",
+    "latitude": 20.47329,
+    "longitude": 86.06592,
+    "population": 842
+  },
+  {
+    "village_id": "V144",
+    "name": "Village_144",
+    "district": "Ganjam",
+    "latitude": 19.4396,
+    "longitude": 84.93311,
+    "population": 1874
+  },
+  {
+    "village_id": "V145",
+    "name": "Village_145",
+    "district": "Puri",
+    "latitude": 19.80139,
+    "longitude": 85.62212,
+    "population": 1801
+  },
+  {
+    "village_id": "V146",
+    "name": "Village_146",
+    "district": "Kendrapara",
+    "latitude": 20.52763,
+    "longitude": 86.4025,
+    "population": 1536
+  },
+  {
+    "village_id": "V147",
+    "name": "Village_147",
+    "district": "Ganjam",
+    "latitude": 19.62087,
+    "longitude": 84.90389,
+    "population": 1893
+  },
+  {
+    "village_id": "V148",
+    "name": "Village_148",
+    "district": "Jagatsinghpur",
+    "latitude": 20.20079,
+    "longitude": 86.37796,
+    "population": 1799
+  },
+  {
+    "village_id": "V149",
+    "name": "Village_149",
+    "district": "Puri",
+    "latitude": 20.09261,
+    "longitude": 86.07301,
+    "population": 1821
+  },
+  {
+    "village_id": "V150",
+    "name": "Village_150",
+    "district": "Ganjam",
+    "latitude": 19.35789,
+    "longitude": 84.87649,
+    "population": 1889
+  }
 ]

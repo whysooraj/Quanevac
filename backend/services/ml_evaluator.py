@@ -53,12 +53,23 @@ def _build_feature_sequence(route: dict, storm_track: dict) -> list[list[float]]
     elevation_norm = (2 + (h % 48)) / 50.0       # 0.04–1.0
     road_quality_norm = (3 + (h % 7)) / 10.0     # 0.3–1.0
 
-    storm_lat = float(storm_track.get("latitude", 19.8))
-    storm_lng = float(storm_track.get("longitude", 85.8))
-    radius_km  = float(storm_track.get("radius_km", 50.0))
+    storm_lat      = float(storm_track.get("latitude",       19.8))
+    storm_lng      = float(storm_track.get("longitude",      85.8))
+    radius_km      = float(storm_track.get("radius_km",      50.0))
+    wind_speed_kmh = float(storm_track.get("wind_speed_kmh", 150.0))
+    rainfall_mm    = float(storm_track.get("rainfall_mm",    200.0))
+
+    # Normalise user params: 220 km/h ≈ Cat-5 max, 400 mm ≈ extreme rainfall
+    wind_intensity = min(1.0, wind_speed_kmh / 220.0)   # 0 → 1 scale
+    rain_intensity = min(1.0, rainfall_mm    / 400.0)   # 0 → 1 scale
 
     target_lat = route.get("target_lat", 19.8)
     target_lng = route.get("target_lng", 85.8)
+    source_lat = route.get("source_lat", target_lat)
+    source_lng = route.get("source_lng", target_lng)
+
+    mid_lat = (source_lat + target_lat) / 2.0
+    mid_lng = (source_lng + target_lng) / 2.0
 
     sequence = []
     for t in range(3):
@@ -66,9 +77,12 @@ def _build_feature_sequence(route: dict, storm_track: dict) -> list[list[float]]
         cur_lat = storm_lat + t * 0.135
         cur_lng = storm_lng - t * 0.045
 
-        dist_km = (
-            (target_lat - cur_lat) ** 2 + (target_lng - cur_lng) ** 2
-        ) ** 0.5 * 111.0
+        dist_s = ((source_lat - cur_lat) ** 2 + (source_lng - cur_lng) ** 2) ** 0.5 * 111.0
+        dist_t = ((target_lat - cur_lat) ** 2 + (target_lng - cur_lng) ** 2) ** 0.5 * 111.0
+        dist_m = ((mid_lat - cur_lat) ** 2 + (mid_lng - cur_lng) ** 2) ** 0.5 * 111.0
+        
+        # Risk is driven by the part of the route that gets CLOSEST to the storm eye
+        dist_km = min(dist_s, dist_t, dist_m)
 
         if dist_km < radius_km:
             rain_norm = 0.75 + 0.25 * (1 - dist_km / radius_km)
@@ -80,6 +94,10 @@ def _build_feature_sequence(route: dict, storm_track: dict) -> list[list[float]]
         else:
             rain_norm = 0.02 + 0.18 * (radius_km / max(dist_km, 1))
             wind_norm = 0.05 + 0.15 * (radius_km / max(dist_km, 1))
+
+        # Scale by user-specified intensity — a Cat-5 amplifies risk everywhere
+        rain_norm = rain_norm * (0.1 + 0.9 * rain_intensity)
+        wind_norm = wind_norm * (0.1 + 0.9 * wind_intensity)
 
         sequence.append([
             min(1.0, dist_km / 500.0),
@@ -147,12 +165,17 @@ def evaluate_network_risk(
 
     enriched = []
     for conn in connections:
+        source_coords = coords.get(conn["source"])
         target_coords = coords.get(conn["target"])
-        if target_coords is None:
+        if target_coords is None or source_coords is None:
             enriched.append(conn)
             continue
 
-        route_ext = {**conn, "target_lat": target_coords[0], "target_lng": target_coords[1]}
+        route_ext = {
+            **conn, 
+            "target_lat": target_coords[0], "target_lng": target_coords[1],
+            "source_lat": source_coords[0], "source_lng": source_coords[1],
+        }
         seq = _build_feature_sequence(route_ext, storm_data)
         risk = _predict_risk(seq)
 

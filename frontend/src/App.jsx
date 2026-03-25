@@ -14,7 +14,9 @@ export default function App() {
   const [stormTrack, setStormTrack] = useState({
     latitude: 19.8,
     longitude: 85.8,
-    radius_km: 50
+    radius_km: 50,
+    wind_speed_kmh: 150,
+    rainfall_mm: 200,
   });
 
   const loadRegionData = async (targetRegion) => {
@@ -28,11 +30,12 @@ export default function App() {
       setThreatData(threat);
 
       // set generic storm track near center of region
-      setStormTrack({
+      setStormTrack(prev => ({
+         ...prev,
          latitude: data.center[0],
          longitude: data.center[1],
-         radius_km: 50
-      });
+         radius_km: 50,
+      }));
       
       // Reset optimizations on region change
       setOptimizedData(null);
@@ -105,7 +108,6 @@ export default function App() {
           onStormMove={(lat, lng) => {
             const newTrack = { ...stormTrack, latitude: lat, longitude: lng };
             setStormTrack(newTrack);
-            // Debounce: if routes are already shown, auto re-optimize after 800ms
             if (optimizedData) {
               clearTimeout(debounceRef.current);
               debounceRef.current = setTimeout(() => {
@@ -121,6 +123,18 @@ export default function App() {
         threatData={threatData}
         isOptimizing={isOptimizing}
         optimizedData={optimizedData}
+        stormTrack={stormTrack}
+        onStormParamChange={(key, val) => {
+          const newTrack = { ...stormTrack, [key]: val };
+          setStormTrack(newTrack);
+          // Debounce reoptimize when sliders change if routes are already visible
+          if (optimizedData) {
+            clearTimeout(debounceRef.current);
+            debounceRef.current = setTimeout(() => {
+              runQuantumOptimization(newTrack, region);
+            }, 1500);
+          }
+        }}
         onRunOptimization={() => runQuantumOptimization(stormTrack, region)}
         resetAlert={() => {
             fetch('http://localhost:8000/api/alerts/reset', { method: 'POST' });

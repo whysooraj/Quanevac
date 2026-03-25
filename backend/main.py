@@ -24,6 +24,8 @@ class StormTrackInput(BaseModel):
     latitude: float
     longitude: float
     radius_km: float
+    wind_speed_kmh: float = 150.0   # Category-3 default
+    rainfall_mm: float    = 200.0   # Heavy rain default
 
 _alert_triggered = False
 
@@ -57,30 +59,37 @@ async def fetch_data_region(region: str):
 async def fetch_threat(region: str):
     return await get_alert_threat(region)
 
-async def fetch_osrm_geometry(client: httpx.AsyncClient, start_lng: float, start_lat: float, end_lng: float, end_lat: float):
-    """Fetch real road geometry from OSRM public API."""
+# ── In-memory geometry cache: key = rounded coords, value = [[lat,lng],...]
+# Persists for the lifetime of the process — no OSRM re-fetch on repeated optimize calls
+_geometry_cache: dict = {}
+
+def _cache_key(start_lng, start_lat, end_lng, end_lat) -> str:
+    return f"{round(start_lat,3)},{round(start_lng,3)}-{round(end_lat,3)},{round(end_lng,3)}"
+
+async def fetch_osrm_geometry(client: httpx.AsyncClient, start_lng, start_lat, end_lng, end_lat):
+    """Fetch road geometry from OSRM — returns cached result if available."""
+    key = _cache_key(start_lng, start_lat, end_lng, end_lat)
+    if key in _geometry_cache:
+        return _geometry_cache[key]       # instant — no network call
+
     try:
-        url = f"https://router.project-osrm.org/route/v1/driving/{start_lng},{start_lat};{end_lng},{end_lat}?geometries=geojson&overview=simplified"
-        r = await client.get(url, timeout=10.0)
+        url = f"https://router.project-osrm.org/route/v1/driving/{start_lng},{start_lat};{end_lng},{end_lat}?geometries=geojson&overview=full"
+        r = await client.get(url, timeout=6.0)
         if r.status_code == 200:
             data = r.json()
             if data.get("routes"):
-                # OSRM returns [lng, lat] coords — flip to Leaflet's [lat, lng]
-                coords = [[c[1], c[0]] for c in data["routes"][0]["geometry"]["coordinates"]]
-                return coords
+                geom = [[c[1], c[0]] for c in data["routes"][0]["geometry"]["coordinates"]]
+                _geometry_cache[key] = geom   # store for future calls
+                return geom
+        else:
+            print(f"OSRM returned status {r.status_code}")
     except Exception as e:
-        print(f"OSRM error: {e}")
+        print(f"OSRM fetch failed: {e}")
     return None
 
 @app.post("/api/optimize")
 async def optimize_evacuation(storm: StormTrackInput):
-    """
-    Runs the full pipeline:
-    1. Base Data Retrieval
-    2. ML LSTM Risk Evaluation
-    3. QAOA Route Optimization
-    4. Parallel OSRM Road Geometry Fetching (all routes at once)
-    """
+    """Full pipeline: Base Data → ML Risk → QAOA → OSRM Roads (all parallel)."""
     base_data = get_region_data(storm.region)
 
     evaluated_connections, ml_latency = evaluate_network_risk(
@@ -99,22 +108,31 @@ async def optimize_evacuation(storm: StormTrackInput):
     coords_map = {v["id"]: v for v in base_data["villages"]}
     coords_map.update({s["id"]: s for s in base_data["shelters"]})
 
-    # Fire ALL OSRM requests simultaneously using asyncio.gather
-    async with httpx.AsyncClient() as client:
+    # ── All OSRM requests in parallel, pool limited to 10 connections ────────
+    limits = httpx.Limits(max_connections=10, max_keepalive_connections=5)
+    async with httpx.AsyncClient(limits=limits) as client:
         tasks = []
-        for assignment in assignments:
-            v = coords_map.get(assignment["village_id"])
-            s = coords_map.get(assignment["assigned_shelter_id"])
+        for a in assignments:
+            v = coords_map.get(a["village_id"])
+            s = coords_map.get(a["assigned_shelter_id"])
             if v and s:
                 tasks.append(fetch_osrm_geometry(client, v["lng"], v["lat"], s["lng"], s["lat"]))
             else:
-                async def _noop(): return None
-                tasks.append(_noop())
+                tasks.append(asyncio.create_task(asyncio.sleep(0, result=None)))
 
         geometries = await asyncio.gather(*tasks)
 
     for i, assignment in enumerate(assignments):
-        assignment["road_geometry"] = geometries[i]  # list[lat,lng] or None (frontend falls back to straight line)
+        geom = geometries[i] if i < len(geometries) else None
+        if not geom:
+            # Fallback to straight line if OSRM failed so the route is NEVER invisible
+            v = coords_map.get(assignment["village_id"])
+            s = coords_map.get(assignment["assigned_shelter_id"])
+            if v and s:
+                geom = [[v["lat"], v["lng"]], [s["lat"], s["lng"]]]
+            else:
+                geom = []
+        assignment["road_geometry"] = geom
 
     result["assignments"] = assignments
     result["ml_execution_time_ms"] = ml_latency

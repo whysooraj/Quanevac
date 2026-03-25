@@ -1,7 +1,24 @@
 import React from 'react';
 import { Activity, ShieldAlert, Navigation, Clock, Users, Database, MapPin } from 'lucide-react';
 
-export default function Dashboard({ region, setRegion, threatData, isOptimizing, optimizedData, onRunOptimization, resetAlert }) {
+export default function Dashboard({ region, setRegion, threatData, isOptimizing, optimizedData, stormTrack, onStormParamChange, onRunOptimization, resetAlert }) {
+
+  const windCategory = (w) => w >= 220 ? ['Cat 5', '#ef4444'] : w >= 178 ? ['Cat 4', '#f97316'] : w >= 130 ? ['Cat 3', '#f59e0b'] : w >= 83 ? ['Cat 2', '#eab308'] : ['Cat 1', '#10b981'];
+  const rainCategory  = (r) => r >= 300 ? ['Extreme', '#ef4444'] : r >= 200 ? ['Heavy', '#f97316'] : r >= 100 ? ['Moderate', '#f59e0b'] : ['Light', '#10b981'];
+
+  const SliderRow = ({ label, param, min, max, step, value, fmt }) => (
+    <div style={{ marginBottom: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '0.78rem' }}>
+        <span style={{ color: '#94a3b8' }}>{label}</span>
+        <span style={{ color: '#e2e8f0', fontWeight: 600 }}>{fmt(value)}</span>
+      </div>
+      <input
+        type="range" min={min} max={max} step={step} value={value}
+        onChange={e => onStormParamChange(param, parseFloat(e.target.value))}
+        style={{ width: '100%', accentColor: 'var(--accent-cyan)', cursor: 'pointer' }}
+      />
+    </div>
+  );
   
   return (
     <div className="dashboard-panel">
@@ -64,6 +81,31 @@ export default function Dashboard({ region, setRegion, threatData, isOptimizing,
           </div>
         </div>
       )}
+
+      {/* ── Storm Parameters ─────────────────────────────────────── */}
+      <div style={{
+        background: 'rgba(0,0,0,0.25)',
+        borderRadius: '10px',
+        border: '1px solid rgba(255,255,255,0.08)',
+        padding: '14px 16px',
+        marginBottom: '16px',
+      }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--accent-cyan)', marginBottom: '12px' }}>
+          ⚡ STORM PARAMETERS
+        </div>
+
+        <SliderRow label={`Storm Radius (km)`}   param="radius_km"       min={20}  max={150} step={5}  value={stormTrack?.radius_km ?? 50}       fmt={v => `${v} km`} />
+
+        <SliderRow label={`Wind Speed`}           param="wind_speed_kmh"  min={50}  max={220} step={5}  value={stormTrack?.wind_speed_kmh ?? 150}
+          fmt={v => { const [cat, col] = windCategory(v); return <><span style={{color: col}}>{cat}</span> · {v} km/h</>; }} />
+
+        <SliderRow label={`Rainfall Intensity`}   param="rainfall_mm"     min={50}  max={400} step={10} value={stormTrack?.rainfall_mm ?? 200}
+          fmt={v => { const [cat, col] = rainCategory(v); return <><span style={{color: col}}>{cat}</span> · {v} mm</>; }} />
+
+        <div style={{ fontSize: '0.68rem', color: '#475569', marginTop: '6px' }}>
+          Slide to change storm intensity → hit Optimize to re-run LSTM+QAOA pipeline
+        </div>
+      </div>
 
       <button 
         className={`btn-quantum ${optimizedData ? 'btn-reset' : ''}`}
