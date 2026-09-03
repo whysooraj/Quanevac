@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import EvacuationMap from './components/EvacuationMap';
 import Dashboard from './components/Dashboard';
+import { Menu, X, Activity, AlertTriangle } from 'lucide-react';
 
 export default function App() {
   const [region, setRegion] = useState("Puri");
@@ -9,7 +10,8 @@ export default function App() {
   const [optimizedData, setOptimizedData] = useState(null);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [activeAlert, setActiveAlert] = useState(null);
-  const debounceRef = React.useRef(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(true);
+  const debounceRef = useRef(null);
   
   const [stormTrack, setStormTrack] = useState({
     latitude: 19.8,
@@ -29,7 +31,6 @@ export default function App() {
       const threat = await threatRes.json();
       setThreatData(threat);
 
-      // set generic storm track near center of region
       setStormTrack(prev => ({
          ...prev,
          latitude: data.center[0],
@@ -37,7 +38,6 @@ export default function App() {
          radius_km: 50,
       }));
       
-      // Reset optimizations on region change
       setOptimizedData(null);
       setActiveAlert(null);
     } catch (err) {
@@ -77,12 +77,13 @@ export default function App() {
         .then(res => res.json())
         .then(data => {
           if (data.active && data.storm && !activeAlert) {
-             // For the demo, we assume the simulated alert is relevant for the current region
             setActiveAlert(data.storm);
             setStormTrack({
               latitude: data.storm.latitude,
               longitude: data.storm.longitude,
-              radius_km: data.storm.radius_km
+              radius_km: data.storm.radius_km,
+              wind_speed_kmh: 180,
+              rainfall_mm: 250,
             });
             runQuantumOptimization(data.storm, region);
           }
@@ -95,13 +96,32 @@ export default function App() {
 
   return (
     <div className="app-container">
-      {activeAlert && (
-         <div className="alert-banner">
-            ALARM: {activeAlert.name} Detected! Auto-Routing Evacuation Paths...
-         </div>
-      )}
+      {/* Top Navbar */}
+      <header className="app-navbar">
+        <div className="nav-brand">
+          <span className="brand-badge">QUANEVAC</span>
+          <span className="brand-title">Odisha Quantum Disaster Optimizer</span>
+        </div>
+        <div className="nav-actions">
+          {activeAlert && (
+            <div className="nav-alert-chip">
+              <AlertTriangle size={14} /> {activeAlert.name} Detected
+            </div>
+          )}
+          <button 
+            className="toggle-panel-btn"
+            onClick={() => setIsPanelOpen(!isPanelOpen)}
+            title={isPanelOpen ? "Collapse Panel" : "Expand Panel"}
+          >
+            {isPanelOpen ? <X size={18} /> : <Menu size={18} />}
+            <span className="toggle-label">{isPanelOpen ? "Hide Panel" : "Control Panel"}</span>
+          </button>
+        </div>
+      </header>
+
+      {/* Main Map Viewport */}
       <div className="map-container">
-      <EvacuationMap 
+        <EvacuationMap 
           baseData={baseData} 
           optimizedData={optimizedData}
           stormTrack={stormTrack}
@@ -117,31 +137,34 @@ export default function App() {
           }}
         />
       </div>
-      <Dashboard 
-        region={region}
-        setRegion={setRegion}
-        threatData={threatData}
-        isOptimizing={isOptimizing}
-        optimizedData={optimizedData}
-        stormTrack={stormTrack}
-        onStormParamChange={(key, val) => {
-          const newTrack = { ...stormTrack, [key]: val };
-          setStormTrack(newTrack);
-          // Debounce reoptimize when sliders change if routes are already visible
-          if (optimizedData) {
-            clearTimeout(debounceRef.current);
-            debounceRef.current = setTimeout(() => {
-              runQuantumOptimization(newTrack, region);
-            }, 1500);
-          }
-        }}
-        onRunOptimization={() => runQuantumOptimization(stormTrack, region)}
-        resetAlert={() => {
-            fetch('http://localhost:8000/api/alerts/reset', { method: 'POST' });
-            setActiveAlert(null);
-            setOptimizedData(null);
-        }}
-      />
+
+      {/* Collapsible Dashboard Side Drawer */}
+      <div className={`dashboard-wrapper ${isPanelOpen ? 'open' : 'closed'}`}>
+        <Dashboard 
+          region={region}
+          setRegion={setRegion}
+          threatData={threatData}
+          isOptimizing={isOptimizing}
+          optimizedData={optimizedData}
+          stormTrack={stormTrack}
+          onStormParamChange={(key, val) => {
+            const newTrack = { ...stormTrack, [key]: val };
+            setStormTrack(newTrack);
+            if (optimizedData) {
+              clearTimeout(debounceRef.current);
+              debounceRef.current = setTimeout(() => {
+                runQuantumOptimization(newTrack, region);
+              }, 1200);
+            }
+          }}
+          onRunOptimization={() => runQuantumOptimization(stormTrack, region)}
+          resetAlert={() => {
+              fetch('http://localhost:8000/api/alerts/reset', { method: 'POST' });
+              setActiveAlert(null);
+              setOptimizedData(null);
+          }}
+        />
+      </div>
     </div>
   );
 }
