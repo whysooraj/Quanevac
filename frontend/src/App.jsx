@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import EvacuationMap from './components/EvacuationMap';
 import Dashboard from './components/Dashboard';
-import { Menu, X, Activity, AlertTriangle } from 'lucide-react';
+import LandingPage from './components/LandingPage';
+import { Menu, X, AlertTriangle, ArrowLeft, Home } from 'lucide-react';
 
 export default function App() {
+  const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'app'
   const [region, setRegion] = useState("Puri");
   const [baseData, setBaseData] = useState(null);
   const [threatData, setThreatData] = useState(null);
@@ -19,6 +21,7 @@ export default function App() {
     radius_km: 50,
     wind_speed_kmh: 150,
     rainfall_mm: 200,
+    provider: "aer",
   });
 
   const loadRegionData = async (targetRegion) => {
@@ -46,8 +49,10 @@ export default function App() {
   };
 
   useEffect(() => {
-    loadRegionData(region);
-  }, [region]);
+    if (viewMode === 'app') {
+      loadRegionData(region);
+    }
+  }, [region, viewMode]);
 
   const runQuantumOptimization = async (track = stormTrack, currentRegion = region) => {
     setIsOptimizing(true);
@@ -72,19 +77,22 @@ export default function App() {
   };
 
   useEffect(() => {
+    if (viewMode !== 'app') return;
+
     const interval = setInterval(() => {
       fetch('http://localhost:8000/api/alerts')
         .then(res => res.json())
         .then(data => {
           if (data.active && data.storm && !activeAlert) {
             setActiveAlert(data.storm);
-            setStormTrack({
+            setStormTrack(prev => ({
+              ...prev,
               latitude: data.storm.latitude,
               longitude: data.storm.longitude,
               radius_km: data.storm.radius_km,
               wind_speed_kmh: 180,
               rainfall_mm: 250,
-            });
+            }));
             runQuantumOptimization(data.storm, region);
           }
         })
@@ -92,13 +100,20 @@ export default function App() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [activeAlert, region]);
+  }, [activeAlert, region, viewMode]);
+
+  if (viewMode === 'landing') {
+    return <LandingPage onLaunchOptimizer={() => setViewMode('app')} />;
+  }
 
   return (
     <div className="app-container">
       {/* Top Navbar */}
       <header className="app-navbar">
         <div className="nav-brand">
+          <button className="nav-back-btn" onClick={() => setViewMode('landing')} title="Return to Landing Page">
+            <Home size={15} /> Landing
+          </button>
           <span className="brand-badge">QUANEVAC</span>
           <span className="brand-title">Odisha Quantum Disaster Optimizer</span>
         </div>
