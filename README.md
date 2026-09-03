@@ -63,7 +63,7 @@ Quanevac combines **QAOA quantum optimization** with **machine learning risk for
 
 ### 🎨 Aesthetic Landing Page
 - Built with **Framer Motion** & **GSAP** for smooth staggered transitions.
-- Minimal, calm aesthetic design detailing system architecture, capabilities, and live demo access.
+- Minimal, calm aesthetic design detailing system architecture, feature highlights, and live demo access.
 
 ---
 
