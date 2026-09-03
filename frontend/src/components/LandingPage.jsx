@@ -141,7 +141,7 @@ export default function LandingPage({ onLaunchOptimizer }) {
             <div className="step-num">02</div>
             <div className="step-icon"><Activity size={22} color="#a855f7" /></div>
             <h3>PyTorch LSTM Risk Engine</h3>
-            <p>Evaluates 3-timestep forecast sequences ($T=0$, $T+12\text{h}$, $T+24\text{h}$) to compute road flood risk probabilities $[0.05, 0.95]$.</p>
+            <p>Evaluates 3-timestep forecast sequences (T=0, T+12h, T+24h) to compute road flood risk probabilities (0.05 to 0.95).</p>
           </motion.div>
 
           {/* Step 3 */}

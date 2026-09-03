@@ -24,12 +24,16 @@
   padding: 0;
 }
 
-body {
-  font-family: 'Inter', sans-serif;
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   background-color: var(--bg-dark);
+  font-family: 'Inter', sans-serif;
   color: var(--text-main);
-  overflow-x: hidden;
 }
+
 
 /* ─────────────────────────────────────────────────────────────
    LANDING PAGE STYLES (Calm, Aesthetic, Minimal Dark Theme)
