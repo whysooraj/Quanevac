@@ -79,8 +79,8 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
   return (
     <MapContainer center={center} zoom={10} style={{ height: '100%', width: '100%' }} zoomControl={false}>
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        attribution='&copy; OpenStreetMap contributors'
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+        attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
       />
       <MapUpdater center={baseData?.center} />
       <StormTracker onStormMove={onStormMove} />

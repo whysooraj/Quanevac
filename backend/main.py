@@ -85,7 +85,8 @@ async def fetch_osrm_geometry(
         return _geometry_cache[key]  # instant — no network call
 
     try:
-        url = f"https://router.project-osrm.org/route/v1/driving/{start_lng},{start_lat};{end_lng},{end_lat}?geometries=geojson&overview=full"
+        url = f"https://router.project-osrm.org/route/v1/driving/{start_lng},{
+            start_lat};{end_lng},{end_lat}?geometries=geojson&overview=full"
         r = await client.get(url, timeout=6.0)
         if r.status_code == 200:
             data = r.json()
@@ -132,10 +133,12 @@ async def optimize_evacuation(storm: StormTrackInput):
             s = coords_map.get(a["assigned_shelter_id"])
             if v and s:
                 tasks.append(
-                    fetch_osrm_geometry(client, v["lng"], v["lat"], s["lng"], s["lat"])
+                    fetch_osrm_geometry(
+                        client, v["lng"], v["lat"], s["lng"], s["lat"])
                 )
             else:
-                tasks.append(asyncio.create_task(asyncio.sleep(0, result=None)))
+                tasks.append(asyncio.create_task(
+                    asyncio.sleep(0, result=None)))
 
         geometries = await asyncio.gather(*tasks)
 
