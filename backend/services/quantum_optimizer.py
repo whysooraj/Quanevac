@@ -95,46 +95,13 @@ def _qaoa_circuit(Q: np.ndarray, p: int = 2) -> QuantumCircuit:
     return qc
 
 
-def _run_qaoa(Q: np.ndarray, shots: int = 512) -> tuple[str, float]:
-    """Returns (best_bitstring, circuit_exec_ms)."""
-    t0  = time.time()
-    n   = Q.shape[0]
-    p   = 2
-    qc  = _qaoa_circuit(Q, p)
+from services.quantum_provider import get_quantum_provider, QuantumProvider
 
-    sim = AerSimulator(method="statevector")
-    pm  = generate_preset_pass_manager(optimization_level=1, backend=sim)
-    tqc = pm.run(qc)
+def _run_qaoa(Q: np.ndarray, shots: int = 512, provider_type: str = "aer") -> tuple[str, float]:
+    """Returns (best_bitstring, circuit_exec_ms) using the pluggable QuantumProvider."""
+    provider = get_quantum_provider(provider_type)
+    return provider.run_qubo(Q, shots=shots)
 
-    # Sort parameters by name so g[0],g[1] come before b[0],b[1]
-    sorted_params = sorted(qc.parameters, key=lambda x: x.name)
-
-    best_energy = float("inf")
-    best_bits   = "0" * n
-
-    gamma_grid = np.linspace(0.3, math.pi, 3)   # 3×3 = 9 evaluations (fast)
-    beta_grid  = np.linspace(0.2, math.pi / 2, 3)
-
-    for g in gamma_grid:
-        for b in beta_grid:
-            # Assign: params starting with 'g' → gamma value, 'b' → beta value
-            pdict = {
-                param: (g if param.name.startswith("g") else b)
-                for param in sorted_params
-            }
-            bound  = tqc.assign_parameters(pdict)
-            counts = sim.run(bound, shots=shots).result().get_counts()
-            best_sample = max(counts, key=counts.get)
-            bits = np.array([int(c) for c in reversed(best_sample)], dtype=float)
-            if len(bits) < n:
-                bits = np.pad(bits, (0, n - len(bits)))
-            energy = float(bits @ Q @ bits)
-            if energy < best_energy:
-                best_energy = energy
-                best_bits   = best_sample
-
-    exec_ms = round((time.time() - t0) * 1000, 1)
-    return best_bits, exec_ms
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -212,7 +179,7 @@ def _metrics(assignments, occupancy, shelters, label):
 #  Main pipeline
 # ─────────────────────────────────────────────────────────────────────────────
 
-def run_quantum_evacuation_optimization(base_data: dict, storm_data: dict) -> dict:
+def run_quantum_evacuation_optimization(base_data: dict, storm_data: dict, provider_type: str = "aer") -> dict:
     t_start  = time.time()
 
     villages    = base_data["villages"]
@@ -269,7 +236,7 @@ def run_quantum_evacuation_optimization(base_data: dict, storm_data: dict) -> di
     if qaoa_villages and qaoa_shelters:
         try:
             Q = _build_qubo(qaoa_villages, qaoa_shelters, connections)
-            best_bits_str, qaoa_ms = _run_qaoa(Q, shots=256)
+            best_bits_str, qaoa_ms = _run_qaoa(Q, shots=256, provider_type=provider_type)
 
             M    = len(qaoa_shelters)
             bits = [int(b) for b in reversed(best_bits_str)]

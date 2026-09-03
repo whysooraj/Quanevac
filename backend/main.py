@@ -28,6 +28,38 @@ class StormTrackInput(BaseModel):
     radius_km: float
     wind_speed_kmh: float = 150.0  # Category-3 default
     rainfall_mm: float = 200.0  # Heavy rain default
+    provider: str = "aer"  # "aer" | "ibm_quantum" | "classical"
+
+
+@app.get("/api/providers")
+async def list_quantum_providers():
+    from services.quantum_provider import get_quantum_provider
+    import os
+    has_ibm_token = bool(os.environ.get("IBM_QUANTUM_TOKEN"))
+    return {
+        "active_default": os.environ.get("QUANTUM_PROVIDER", "aer"),
+        "providers": [
+            {
+                "id": "aer",
+                "name": get_quantum_provider("aer").name(),
+                "description": "Local Qiskit Aer statevector simulator (Fast, Offline)",
+                "status": "ready"
+            },
+            {
+                "id": "ibm_quantum",
+                "name": get_quantum_provider("ibm_quantum").name(),
+                "description": "IBM Quantum Runtime Service (QPU Hardware)",
+                "status": "ready" if has_ibm_token else "requires_token"
+            },
+            {
+                "id": "classical",
+                "name": get_quantum_provider("classical").name(),
+                "description": "Classical Heuristic Fallback Solver",
+                "status": "ready"
+            }
+        ]
+    }
+
 
 
 _alert_triggered = False
@@ -116,7 +148,7 @@ async def optimize_evacuation(storm: StormTrackInput):
     )
     base_data["connections"] = evaluated_connections
 
-    result = run_quantum_evacuation_optimization(base_data, storm.dict())
+    result = run_quantum_evacuation_optimization(base_data, storm.dict(), provider_type=storm.provider)
 
     assignments = result.get("assignments", [])
 
