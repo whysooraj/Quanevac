@@ -4,6 +4,27 @@ import Dashboard from './components/Dashboard';
 import LandingPage from './components/LandingPage';
 import { Menu, X, AlertTriangle, Home, Play, Pause } from 'lucide-react';
 
+const PRESET_TRACKS = {
+  fani: [
+    [19.30, 85.30],
+    [19.80, 85.80],
+    [20.25, 85.83],
+    [20.60, 86.40]
+  ],
+  phailin: [
+    [18.80, 85.20],
+    [19.30, 84.90],
+    [19.70, 84.60],
+    [20.10, 84.30]
+  ],
+  amphan: [
+    [19.20, 86.50],
+    [19.90, 86.80],
+    [20.50, 87.20],
+    [21.30, 87.80]
+  ]
+};
+
 export default function App() {
   const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'app'
   const [region, setRegion] = useState("Puri");
@@ -14,15 +35,21 @@ export default function App() {
   const [activeAlert, setActiveAlert] = useState(null);
   const [isPanelOpen, setIsPanelOpen] = useState(true);
   const [isSimulatingTrack, setIsSimulatingTrack] = useState(false);
+  
+  // Custom Path Selection State
+  const [trackPreset, setTrackPreset] = useState("fani");
+  const [customWaypoints, setCustomWaypoints] = useState(PRESET_TRACKS.fani);
+  const [isDrawingPath, setIsDrawingPath] = useState(false);
+
   const debounceRef = useRef(null);
   const trackAnimRef = useRef(null);
   
   const [stormTrack, setStormTrack] = useState({
-    latitude: 19.8,
-    longitude: 85.8,
+    latitude: PRESET_TRACKS.fani[0][0],
+    longitude: PRESET_TRACKS.fani[0][1],
     radius_km: 50,
-    wind_speed_kmh: 150,
-    rainfall_mm: 200,
+    wind_speed_kmh: 180,
+    rainfall_mm: 220,
     provider: "aer",
   });
 
@@ -36,13 +63,6 @@ export default function App() {
       const threat = await threatRes.json();
       setThreatData(threat);
 
-      setStormTrack(prev => ({
-         ...prev,
-         latitude: data.center[0],
-         longitude: data.center[1],
-         radius_km: 50,
-      }));
-      
       setOptimizedData(null);
       setActiveAlert(null);
       setIsSimulatingTrack(false);
@@ -56,6 +76,55 @@ export default function App() {
       loadRegionData(region);
     }
   }, [region, viewMode]);
+
+  const handleSelectTrackPreset = (presetKey) => {
+    setTrackPreset(presetKey);
+    setIsDrawingPath(false);
+
+    if (presetKey in PRESET_TRACKS) {
+      const waypoints = PRESET_TRACKS[presetKey];
+      setCustomWaypoints(waypoints);
+      const newTrack = {
+        ...stormTrack,
+        latitude: waypoints[0][0],
+        longitude: waypoints[0][1]
+      };
+      setStormTrack(newTrack);
+      if (optimizedData) runQuantumOptimization(newTrack, region);
+    } else if (presetKey === "nnw") {
+      setCustomWaypoints([]);
+      const newTrack = {
+        ...stormTrack,
+        latitude: baseData?.center ? baseData.center[0] : 19.8,
+        longitude: baseData?.center ? baseData.center[1] : 85.8
+      };
+      setStormTrack(newTrack);
+      if (optimizedData) runQuantumOptimization(newTrack, region);
+    } else if (presetKey === "custom") {
+      setIsDrawingPath(true);
+    }
+  };
+
+  const handleAddWaypoint = (lat, lng) => {
+    const updated = [...customWaypoints, [lat, lng]];
+    setCustomWaypoints(updated);
+    setTrackPreset("custom");
+
+    // Move storm eye to the first waypoint or latest point
+    const newTrack = {
+      ...stormTrack,
+      latitude: updated[0][0],
+      longitude: updated[0][1]
+    };
+    setStormTrack(newTrack);
+    if (optimizedData) runQuantumOptimization(newTrack, region);
+  };
+
+  const handleClearCustomWaypoints = () => {
+    setCustomWaypoints([]);
+    setTrackPreset("nnw");
+    setIsDrawingPath(false);
+  };
 
   const runQuantumOptimization = async (track = stormTrack, currentRegion = region) => {
     setIsOptimizing(true);
@@ -81,55 +150,38 @@ export default function App() {
   // ── Trajectory Simulation Animation Loop ────────────────────────────────
   useEffect(() => {
     if (isSimulatingTrack && viewMode === 'app') {
-      let stepCount = 0;
-      trackAnimRef.current = setInterval(() => {
-        setStormTrack(prev => {
-          // Advance storm along NNW trajectory (~0.035 lat, -0.012 lng per step)
-          const newLat = prev.latitude + 0.035;
-          const newLng = prev.longitude - 0.012;
-          const updatedTrack = { ...prev, latitude: newLat, longitude: newLng };
-          
-          runQuantumOptimization(updatedTrack, region);
-          return updatedTrack;
-        });
+      let currentIdx = 0;
+      const waypoints = (customWaypoints && customWaypoints.length >= 2) 
+        ? customWaypoints 
+        : [
+            [stormTrack.latitude, stormTrack.longitude],
+            [stormTrack.latitude + 0.06, stormTrack.longitude - 0.02],
+            [stormTrack.latitude + 0.12, stormTrack.longitude - 0.04],
+            [stormTrack.latitude + 0.24, stormTrack.longitude - 0.08]
+          ];
 
-        stepCount++;
-        if (stepCount >= 10) {
-          setIsSimulatingTrack(false); // pause after 10 steps
+      trackAnimRef.current = setInterval(() => {
+        currentIdx = (currentIdx + 1) % waypoints.length;
+        const targetPt = waypoints[currentIdx];
+        
+        const updatedTrack = {
+          ...stormTrack,
+          latitude: targetPt[0],
+          longitude: targetPt[1]
+        };
+        setStormTrack(updatedTrack);
+        runQuantumOptimization(updatedTrack, region);
+
+        if (currentIdx === waypoints.length - 1) {
+          setIsSimulatingTrack(false); // Stop when reaching end of trajectory
         }
-      }, 2000);
+      }, 2200);
     } else {
       clearInterval(trackAnimRef.current);
     }
 
     return () => clearInterval(trackAnimRef.current);
-  }, [isSimulatingTrack, viewMode, region]);
-
-  useEffect(() => {
-    if (viewMode !== 'app' || isSimulatingTrack) return;
-
-    const interval = setInterval(() => {
-      fetch('http://localhost:8000/api/alerts')
-        .then(res => res.json())
-        .then(data => {
-          if (data.active && data.storm && !activeAlert) {
-            setActiveAlert(data.storm);
-            setStormTrack(prev => ({
-              ...prev,
-              latitude: data.storm.latitude,
-              longitude: data.storm.longitude,
-              radius_km: data.storm.radius_km,
-              wind_speed_kmh: 180,
-              rainfall_mm: 250,
-            }));
-            runQuantumOptimization(data.storm, region);
-          }
-        })
-        .catch(e => console.error("Polling error", e));
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [activeAlert, region, viewMode, isSimulatingTrack]);
+  }, [isSimulatingTrack, viewMode, region, customWaypoints]);
 
   if (viewMode === 'landing') {
     return <LandingPage onLaunchOptimizer={() => setViewMode('app')} />;
@@ -169,6 +221,9 @@ export default function App() {
           baseData={baseData} 
           optimizedData={optimizedData}
           stormTrack={stormTrack}
+          customWaypoints={customWaypoints}
+          isDrawingPath={isDrawingPath}
+          onAddWaypoint={handleAddWaypoint}
           onStormMove={(lat, lng) => {
             const newTrack = { ...stormTrack, latitude: lat, longitude: lng };
             setStormTrack(newTrack);
@@ -193,6 +248,12 @@ export default function App() {
           stormTrack={stormTrack}
           isSimulatingTrack={isSimulatingTrack}
           onToggleTrackSimulation={() => setIsSimulatingTrack(!isSimulatingTrack)}
+          trackPreset={trackPreset}
+          onSelectTrackPreset={handleSelectTrackPreset}
+          isDrawingPath={isDrawingPath}
+          onToggleDrawingPath={() => setIsDrawingPath(!isDrawingPath)}
+          customWaypointsCount={customWaypoints.length}
+          onClearCustomWaypoints={handleClearCustomWaypoints}
           onStormParamChange={(key, val) => {
             const newTrack = { ...stormTrack, [key]: val };
             setStormTrack(newTrack);

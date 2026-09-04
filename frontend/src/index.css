@@ -671,6 +671,25 @@ html, body, #root {
 .legend-line.route-warn { background: #f59e0b; }
 .legend-line.route-danger { background: #ef4444; }
 
+.drawing-mode-banner {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1200;
+  background: rgba(168, 85, 247, 0.9);
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: var(--pill-radius);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+  animation: pulse 1.5s infinite;
+}
+
 .dashboard-wrapper {
   position: absolute;
   top: 66px;

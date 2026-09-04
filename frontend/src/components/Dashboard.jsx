@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Activity, ShieldAlert, Navigation, Clock, Users, Database, MapPin, Sliders, BarChart2, Shield, Layers, Play, Pause, Compass } from 'lucide-react';
+import { Activity, ShieldAlert, Navigation, Clock, Users, Database, MapPin, Sliders, BarChart2, Shield, Layers, Play, Pause, Compass, Edit3, Trash2 } from 'lucide-react';
 
 export default function Dashboard({ 
   region, 
@@ -12,7 +12,13 @@ export default function Dashboard({
   onRunOptimization, 
   resetAlert,
   isSimulatingTrack,
-  onToggleTrackSimulation
+  onToggleTrackSimulation,
+  trackPreset,
+  onSelectTrackPreset,
+  isDrawingPath,
+  onToggleDrawingPath,
+  customWaypointsCount,
+  onClearCustomWaypoints
 }) {
   const [activeTab, setActiveTab] = useState('config'); // 'config' | 'metrics' | 'shelters'
 
@@ -115,7 +121,7 @@ export default function Dashboard({
             border: `1px solid ${isSimulatingTrack ? '#ef4444' : 'var(--accent-cyan)'}`,
             color: isSimulatingTrack ? '#ef4444' : 'var(--accent-cyan)',
             borderRadius: 'var(--pill-radius)',
-            padding: '0 16px',
+            padding: '0 14px',
             fontWeight: 700,
             fontSize: '0.82rem',
             cursor: 'pointer',
@@ -134,8 +140,83 @@ export default function Dashboard({
       {/* Tab 1: Config & Overview */}
       {activeTab === 'config' && (
         <div className="tab-content">
-          <div className="narrative-box">
-            <strong>Projected Cyclone Track:</strong> Moves NNW (~340°) across Bay of Bengal toward landfall. Trajectory markers show estimated position at +6h, +12h, and +24h.
+          {/* Cyclone Path Selection Controls */}
+          <div className="config-card" style={{ background: 'rgba(99, 102, 241, 0.1)', borderColor: 'rgba(99, 102, 241, 0.3)' }}>
+            <div className="card-title" style={{ color: '#818cf8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span>🌀 CYCLONE PATH & TRAJECTORY SELECTOR</span>
+            </div>
+
+            <div style={{ marginBottom: '10px' }}>
+              <label style={{ fontSize: '0.78rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>
+                Select Trajectory Track:
+              </label>
+              <select 
+                value={trackPreset} 
+                onChange={e => onSelectTrackPreset(e.target.value)}
+                style={{
+                  width: '100%',
+                  background: 'rgba(0,0,0,0.4)',
+                  color: '#fff',
+                  border: '1px solid var(--border-carbon)',
+                  borderRadius: 'var(--pill-radius)',
+                  padding: '8px 12px',
+                  fontSize: '0.82rem',
+                  fontFamily: 'inherit',
+                  cursor: 'pointer',
+                  outline: 'none'
+                }}
+              >
+                <option value="fani">Cyclone Fani (2019 Historic Track)</option>
+                <option value="phailin">Cyclone Phailin (2013 Historic Track)</option>
+                <option value="amphan">Cyclone Amphan (2020 Historic Track)</option>
+                <option value="nnw">Default NNW Trajectory (~340°)</option>
+                <option value="custom">Custom Draw-on-Map Path ({customWaypointsCount} pts)</option>
+              </select>
+            </div>
+
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button 
+                onClick={onToggleDrawingPath}
+                style={{
+                  flex: 1,
+                  background: isDrawingPath ? '#a855f7' : 'rgba(255,255,255,0.08)',
+                  border: `1px solid ${isDrawingPath ? '#a855f7' : 'var(--border-carbon)'}`,
+                  color: '#fff',
+                  borderRadius: 'var(--pill-radius)',
+                  padding: '6px 12px',
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px'
+                }}
+              >
+                <Edit3 size={14} /> {isDrawingPath ? 'Done Drawing' : 'Draw Custom Path'}
+              </button>
+
+              {customWaypointsCount > 0 && (
+                <button 
+                  onClick={onClearCustomWaypoints}
+                  style={{
+                    background: 'rgba(239, 68, 68, 0.15)',
+                    border: '1px solid #ef4444',
+                    color: '#ef4444',
+                    borderRadius: 'var(--pill-radius)',
+                    padding: '6px 10px',
+                    fontSize: '0.78rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                  title="Clear Custom Path"
+                >
+                  <Trash2 size={14} /> Clear ({customWaypointsCount})
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Threat Level Box */}
@@ -153,7 +234,7 @@ export default function Dashboard({
           {/* Storm Parameters */}
           <div className="config-card">
             <div className="card-title">
-              ⚡ DYNAMIC STORM PARAMETERS & TRAJECTORY
+              ⚡ DYNAMIC STORM PARAMETERS
             </div>
 
             <SliderRow label="Storm Radius (km)" param="radius_km" min={20} max={150} step={5} value={stormTrack?.radius_km ?? 50} fmt={v => `${v} km`} />
@@ -165,7 +246,7 @@ export default function Dashboard({
               fmt={v => { const [cat, col] = rainCategory(v); return <><span style={{color: col, fontWeight: 700}}>{cat}</span> · {v} mm</>; }} />
 
             <div className="helper-text">
-              💡 Click <strong>"Animate Track"</strong> to simulate live storm progression along its projected trajectory path!
+              💡 Choose a historic track preset above or click <strong>"Draw Custom Path"</strong> to click points on the map!
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Circle, Popup, Polyline, useMapEvents, useMap, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MapPin, Navigation, Info, ZoomIn, ZoomOut, RotateCcw, Play, Pause } from 'lucide-react';
+import { MapPin, Navigation, Info, ZoomIn, ZoomOut, RotateCcw, Play, Pause, Edit3 } from 'lucide-react';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -32,8 +32,8 @@ const createTrajectoryIcon = (label, color = '#ef4444') => {
         ${label}
       </div>
     `,
-    iconSize: [40, 20],
-    iconAnchor: [20, 10],
+    iconSize: [45, 20],
+    iconAnchor: [22, 10],
   });
 };
 
@@ -85,8 +85,8 @@ function RoutePolyline({ assignment, village, shelter, stormTrack }) {
   );
 }
 
-function StormTracker({ onStormMove }) {
-  useMapEvents({ click(e) { onStormMove(e.latlng.lat, e.latlng.lng); } });
+function MapClickHandler({ onMapClick }) {
+  useMapEvents({ click(e) { onMapClick(e.latlng.lat, e.latlng.lng); } });
   return null;
 }
 
@@ -107,10 +107,17 @@ function CustomMapControls({ center }) {
   );
 }
 
-export default function EvacuationMap({ baseData, optimizedData, stormTrack, onStormMove }) {
+export default function EvacuationMap({ 
+  baseData, 
+  optimizedData, 
+  stormTrack, 
+  onStormMove,
+  customWaypoints = [],
+  isDrawingPath = false,
+  onAddWaypoint
+}) {
   const center = baseData?.center || [19.8, 85.8];
 
-  // ── Calculate 4-point Cyclone Forecast Trajectory (NNW movement ~15 km / 12h) ──
   const curLat = stormTrack.latitude;
   const curLng = stormTrack.longitude;
   const rad = stormTrack.radius_km || 50;
@@ -118,15 +125,33 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
   const rain = stormTrack.rainfall_mm || 200;
   const intensity = Math.min(1.0, (wind / 220) * 0.6 + (rain / 400) * 0.4);
 
-  // Projected trajectory waypoints: T=0h, T+6h, T+12h, T+24h
-  const trajectoryPoints = [
-    { label: 'T=0h (Eye)', lat: curLat, lng: curLng },
-    { label: '+6h',  lat: curLat + 0.0675, lng: curLng - 0.0225 },
-    { label: '+12h', lat: curLat + 0.135,  lng: curLng - 0.045 },
-    { label: '+24h (Landfall)', lat: curLat + 0.270,  lng: curLng - 0.090 },
-  ];
+  // ── Determine active trajectory line (Custom Waypoints vs Auto Projection) ──
+  let trajectoryPoints = [];
+  if (customWaypoints && customWaypoints.length > 0) {
+    trajectoryPoints = customWaypoints.map((pt, idx) => ({
+      label: idx === 0 ? 'T=0h (Start)' : `Waypoint ${idx}`,
+      lat: pt[0],
+      lng: pt[1]
+    }));
+  } else {
+    // Default projected track: T=0h, T+6h, T+12h, T+24h
+    trajectoryPoints = [
+      { label: 'T=0h (Eye)', lat: curLat, lng: curLng },
+      { label: '+6h',  lat: curLat + 0.0675, lng: curLng - 0.0225 },
+      { label: '+12h', lat: curLat + 0.135,  lng: curLng - 0.045 },
+      { label: '+24h (Landfall)', lat: curLat + 0.270,  lng: curLng - 0.090 },
+    ];
+  }
 
   const trajectoryLine = trajectoryPoints.map(p => [p.lat, p.lng]);
+
+  const handleMapClick = (lat, lng) => {
+    if (isDrawingPath && onAddWaypoint) {
+      onAddWaypoint(lat, lng);
+    } else if (onStormMove) {
+      onStormMove(lat, lng);
+    }
+  };
 
   return (
     <div className="map-wrapper" style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -136,7 +161,7 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
           attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
         />
         <MapUpdater center={baseData?.center} />
-        <StormTracker onStormMove={onStormMove} />
+        <MapClickHandler onMapClick={handleMapClick} />
         <CustomMapControls center={baseData?.center} />
 
         {/* Villages */}
@@ -175,35 +200,35 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
           );
         })}
 
-        {/* ── Projected Cyclone Track / Trajectory Path ────────────────────── */}
-        <Polyline
-          positions={trajectoryLine}
-          pathOptions={{
-            color: '#ef4444',
-            weight: 3,
-            dashArray: '8, 8',
-            opacity: 0.85,
-          }}
-        />
+        {/* ── Active Cyclone Path / Trajectory Line ───────────────────────── */}
+        {trajectoryLine.length >= 2 && (
+          <Polyline
+            positions={trajectoryLine}
+            pathOptions={{
+              color: isDrawingPath ? '#a855f7' : '#ef4444',
+              weight: 3.5,
+              dashArray: '8, 8',
+              opacity: 0.88,
+            }}
+          />
+        )}
 
-        {/* Trajectory Forecast Markers (+6h, +12h, +24h) */}
+        {/* Trajectory Forecast Markers */}
         {trajectoryPoints.map((tp, idx) => (
           <React.Fragment key={idx}>
-            {idx > 0 && (
-              <Marker position={[tp.lat, tp.lng]} icon={createTrajectoryIcon(tp.label, idx === 3 ? '#b91c1c' : '#f97316')}>
-                <Popup>
-                  <div style={{ color: '#1e293b' }}>
-                    <strong>🌀 Projected Cyclone Position ({tp.label})</strong><br />
-                    Heading: NNW (~340°) | Speed: ~15 km/h<br />
-                    Est. Wind: {wind} km/h | Rain: {rain} mm
-                  </div>
-                </Popup>
-              </Marker>
-            )}
+            <Marker position={[tp.lat, tp.lng]} icon={createTrajectoryIcon(tp.label, idx === 0 ? '#ef4444' : idx === trajectoryPoints.length - 1 ? '#b91c1c' : '#f97316')}>
+              <Popup>
+                <div style={{ color: '#1e293b' }}>
+                  <strong>🌀 Waypoint {idx}: {tp.label}</strong><br />
+                  Lat: {tp.lat.toFixed(3)}, Lng: {tp.lng.toFixed(3)}<br />
+                  Est. Wind: {wind} km/h | Rain: {rain} mm
+                </div>
+              </Popup>
+            </Marker>
           </React.Fragment>
         ))}
 
-        {/* Storm impact zones */}
+        {/* Storm impact core */}
         <>
           <Circle center={[curLat, curLng]}
             radius={rad * 1000}
@@ -225,12 +250,9 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
             <Popup>
               <strong>🌀 Cyclone Danger Core (Eye Position)</strong><br />
               Radius: {rad} km | Wind: {wind} km/h<br/>
-              Heading: NNW (~340°)<br/>
-              <em>Click anywhere on map to reposition storm.</em>
+              <em>Click on map to position storm or add waypoints.</em>
             </Popup>
           </Circle>
-          <CircleMarker center={[curLat, curLng]}
-            radius={5 + intensity * 4} pathOptions={{ color: '#ef4444', fillColor: '#ef4444', fillOpacity: 1, weight: 2 }} />
         </>
 
         {/* Optimised routes */}
@@ -250,6 +272,13 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
         })}
       </MapContainer>
 
+      {/* Mode Indicator Overlay */}
+      {isDrawingPath && (
+        <div className="drawing-mode-banner">
+          <Edit3 size={15} /> <strong>Custom Path Mode Active:</strong> Click on map to place waypoints for the cyclone path!
+        </div>
+      )}
+
       {/* Floating Map Legend */}
       <div className="map-legend">
         <div className="legend-title"><Info size={13} /> Map Legend</div>
@@ -257,7 +286,7 @@ export default function EvacuationMap({ baseData, optimizedData, stormTrack, onS
           <div className="legend-item"><span className="legend-dot village"></span> Village</div>
           <div className="legend-item"><span className="legend-dot shelter"></span> Shelter</div>
           <div className="legend-item"><span className="legend-dot storm"></span> Cyclone Eye</div>
-          <div className="legend-item"><span className="legend-line trajectory"></span> Projected Track</div>
+          <div className="legend-item"><span className="legend-line trajectory"></span> Cyclone Path</div>
           <div className="legend-item"><span className="legend-line route-safe"></span> Low Risk Route</div>
           <div className="legend-item"><span className="legend-line route-danger"></span> High Risk Route</div>
         </div>
