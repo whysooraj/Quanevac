@@ -666,6 +666,7 @@ html, body, #root {
 .legend-dot.storm { background: #ef4444; }
 
 .legend-line { width: 14px; height: 3px; border-radius: 2px; }
+.legend-line.trajectory { background: repeating-linear-gradient(90deg, #ef4444 0, #ef4444 3px, transparent 3px, transparent 6px); }
 .legend-line.route-safe { background: #10b981; }
 .legend-line.route-warn { background: #f59e0b; }
 .legend-line.route-danger { background: #ef4444; }

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import EvacuationMap from './components/EvacuationMap';
 import Dashboard from './components/Dashboard';
 import LandingPage from './components/LandingPage';
-import { Menu, X, AlertTriangle, ArrowLeft, Home } from 'lucide-react';
+import { Menu, X, AlertTriangle, Home, Play, Pause } from 'lucide-react';
 
 export default function App() {
   const [viewMode, setViewMode] = useState('landing'); // 'landing' | 'app'
@@ -13,7 +13,9 @@ export default function App() {
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [activeAlert, setActiveAlert] = useState(null);
   const [isPanelOpen, setIsPanelOpen] = useState(true);
+  const [isSimulatingTrack, setIsSimulatingTrack] = useState(false);
   const debounceRef = useRef(null);
+  const trackAnimRef = useRef(null);
   
   const [stormTrack, setStormTrack] = useState({
     latitude: 19.8,
@@ -43,6 +45,7 @@ export default function App() {
       
       setOptimizedData(null);
       setActiveAlert(null);
+      setIsSimulatingTrack(false);
     } catch (err) {
       console.error("Could not fetch region data", err);
     }
@@ -56,7 +59,6 @@ export default function App() {
 
   const runQuantumOptimization = async (track = stormTrack, currentRegion = region) => {
     setIsOptimizing(true);
-    setOptimizedData(null);
     
     try {
       const response = await fetch('http://localhost:8000/api/optimize', {
@@ -76,8 +78,35 @@ export default function App() {
     }
   };
 
+  // ── Trajectory Simulation Animation Loop ────────────────────────────────
   useEffect(() => {
-    if (viewMode !== 'app') return;
+    if (isSimulatingTrack && viewMode === 'app') {
+      let stepCount = 0;
+      trackAnimRef.current = setInterval(() => {
+        setStormTrack(prev => {
+          // Advance storm along NNW trajectory (~0.035 lat, -0.012 lng per step)
+          const newLat = prev.latitude + 0.035;
+          const newLng = prev.longitude - 0.012;
+          const updatedTrack = { ...prev, latitude: newLat, longitude: newLng };
+          
+          runQuantumOptimization(updatedTrack, region);
+          return updatedTrack;
+        });
+
+        stepCount++;
+        if (stepCount >= 10) {
+          setIsSimulatingTrack(false); // pause after 10 steps
+        }
+      }, 2000);
+    } else {
+      clearInterval(trackAnimRef.current);
+    }
+
+    return () => clearInterval(trackAnimRef.current);
+  }, [isSimulatingTrack, viewMode, region]);
+
+  useEffect(() => {
+    if (viewMode !== 'app' || isSimulatingTrack) return;
 
     const interval = setInterval(() => {
       fetch('http://localhost:8000/api/alerts')
@@ -100,7 +129,7 @@ export default function App() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [activeAlert, region, viewMode]);
+  }, [activeAlert, region, viewMode, isSimulatingTrack]);
 
   if (viewMode === 'landing') {
     return <LandingPage onLaunchOptimizer={() => setViewMode('app')} />;
@@ -111,7 +140,7 @@ export default function App() {
       {/* Top Navbar */}
       <header className="app-navbar">
         <div className="nav-brand">
-          <button className="nav-back-btn" onClick={() => setViewMode('landing')} title="Return to Landing Page">
+          <button className="nav-back-btn" onClick={() => { setViewMode('landing'); setIsSimulatingTrack(false); }} title="Return to Landing Page">
             <Home size={15} /> Landing
           </button>
           <span className="brand-badge">QUANEVAC</span>
@@ -162,6 +191,8 @@ export default function App() {
           isOptimizing={isOptimizing}
           optimizedData={optimizedData}
           stormTrack={stormTrack}
+          isSimulatingTrack={isSimulatingTrack}
+          onToggleTrackSimulation={() => setIsSimulatingTrack(!isSimulatingTrack)}
           onStormParamChange={(key, val) => {
             const newTrack = { ...stormTrack, [key]: val };
             setStormTrack(newTrack);
@@ -177,6 +208,7 @@ export default function App() {
               fetch('http://localhost:8000/api/alerts/reset', { method: 'POST' });
               setActiveAlert(null);
               setOptimizedData(null);
+              setIsSimulatingTrack(false);
           }}
         />
       </div>

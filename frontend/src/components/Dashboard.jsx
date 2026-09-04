@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
-import { Activity, ShieldAlert, Navigation, Clock, Users, Database, MapPin, Sliders, BarChart2, Shield, Layers } from 'lucide-react';
+import { Activity, ShieldAlert, Navigation, Clock, Users, Database, MapPin, Sliders, BarChart2, Shield, Layers, Play, Pause, Compass } from 'lucide-react';
 
-export default function Dashboard({ region, setRegion, threatData, isOptimizing, optimizedData, stormTrack, onStormParamChange, onRunOptimization, resetAlert }) {
+export default function Dashboard({ 
+  region, 
+  setRegion, 
+  threatData, 
+  isOptimizing, 
+  optimizedData, 
+  stormTrack, 
+  onStormParamChange, 
+  onRunOptimization, 
+  resetAlert,
+  isSimulatingTrack,
+  onToggleTrackSimulation
+}) {
   const [activeTab, setActiveTab] = useState('config'); // 'config' | 'metrics' | 'shelters'
 
   const windCategory = (w) => w >= 220 ? ['Cat 5', '#ef4444'] : w >= 178 ? ['Cat 4', '#f97316'] : w >= 130 ? ['Cat 3', '#f59e0b'] : w >= 83 ? ['Cat 2', '#eab308'] : ['Cat 1', '#10b981'];
@@ -68,35 +80,62 @@ export default function Dashboard({ region, setRegion, threatData, isOptimizing,
         </button>
       </div>
 
-      {/* Main Action Button */}
-      <button 
-        className={`btn-quantum ${optimizedData ? 'btn-reset' : ''}`}
-        onClick={optimizedData ? resetAlert : onRunOptimization}
-        disabled={isOptimizing}
-      >
-        {isOptimizing ? (
-          <>
-            <Activity className="animate-pulse" size={18} />
-            Running ML & QAOA Pipeline...
-          </>
-        ) : optimizedData ? (
-          <>
-            <Navigation size={18} />
-            Reset Simulation
-          </>
-        ) : (
-          <>
-            <Navigation size={18} />
-            Optimize {region} Routes
-          </>
-        )}
-      </button>
+      {/* Main Action Buttons */}
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
+        <button 
+          className={`btn-quantum ${optimizedData ? 'btn-reset' : ''}`}
+          onClick={optimizedData ? resetAlert : onRunOptimization}
+          disabled={isOptimizing}
+          style={{ flex: 1, marginBottom: 0 }}
+        >
+          {isOptimizing ? (
+            <>
+              <Activity className="animate-pulse" size={18} />
+              Running ML & QAOA...
+            </>
+          ) : optimizedData ? (
+            <>
+              <Navigation size={18} />
+              Reset Simulation
+            </>
+          ) : (
+            <>
+              <Navigation size={18} />
+              Optimize Routes
+            </>
+          )}
+        </button>
+
+        <button 
+          className={`btn-track-sim ${isSimulatingTrack ? 'active' : ''}`}
+          onClick={onToggleTrackSimulation}
+          title={isSimulatingTrack ? "Pause Track Simulation" : "Animate Cyclone Trajectory Movement"}
+          style={{
+            background: isSimulatingTrack ? 'rgba(239, 68, 68, 0.2)' : 'rgba(6, 182, 212, 0.15)',
+            border: `1px solid ${isSimulatingTrack ? '#ef4444' : 'var(--accent-cyan)'}`,
+            color: isSimulatingTrack ? '#ef4444' : 'var(--accent-cyan)',
+            borderRadius: 'var(--pill-radius)',
+            padding: '0 16px',
+            fontWeight: 700,
+            fontSize: '0.82rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'all 0.2s ease',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          {isSimulatingTrack ? <Pause size={16} /> : <Play size={16} />}
+          {isSimulatingTrack ? 'Pause Track' : 'Animate Track'}
+        </button>
+      </div>
 
       {/* Tab 1: Config & Overview */}
       {activeTab === 'config' && (
         <div className="tab-content">
           <div className="narrative-box">
-            <strong>The Fani 2019 Challenge:</strong> 1.2M evacuated in Odisha. Hybrid QAOA + PyTorch LSTM computes flood-safe shelter assignments in real-time.
+            <strong>Projected Cyclone Track:</strong> Moves NNW (~340°) across Bay of Bengal toward landfall. Trajectory markers show estimated position at +6h, +12h, and +24h.
           </div>
 
           {/* Threat Level Box */}
@@ -114,7 +153,7 @@ export default function Dashboard({ region, setRegion, threatData, isOptimizing,
           {/* Storm Parameters */}
           <div className="config-card">
             <div className="card-title">
-              ⚡ DYNAMIC STORM PARAMETERS
+              ⚡ DYNAMIC STORM PARAMETERS & TRAJECTORY
             </div>
 
             <SliderRow label="Storm Radius (km)" param="radius_km" min={20} max={150} step={5} value={stormTrack?.radius_km ?? 50} fmt={v => `${v} km`} />
@@ -126,7 +165,7 @@ export default function Dashboard({ region, setRegion, threatData, isOptimizing,
               fmt={v => { const [cat, col] = rainCategory(v); return <><span style={{color: col, fontWeight: 700}}>{cat}</span> · {v} mm</>; }} />
 
             <div className="helper-text">
-              💡 Slide parameters or click on map to reposition storm center → auto re-optimizes routes.
+              💡 Click <strong>"Animate Track"</strong> to simulate live storm progression along its projected trajectory path!
             </div>
           </div>
         </div>
